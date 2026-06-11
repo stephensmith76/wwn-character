@@ -552,6 +552,100 @@ const SKILL_MIN_LEVELS = [1, 1, 3, 6, 9]; // char level required to buy each ski
 
 // WWN p.11-17 — backgrounds with full skill tables
 // growth/learning: 0-indexed arrays (index 0 = die result 1)
+// Starting equipment packages (WWN p.29)
+const GEAR_PACKAGES = [
+  {
+    name:'Adventuring Peasant',
+    desc:'Shield, spear, and a mule — sturdy peasant kit built for hauling.',
+    items:[
+      {name:'War Shirt (AC 11)',                  enc:0, readied:true},
+      {name:'Large Shield (AC 14 when held)',      enc:1, readied:true},
+      {name:'Light Spear (1d6, Shock 2/AC 13)',   enc:1, readied:true},
+      {name:'Dagger (1d4, Shock 1/AC 15)',         enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Rations, 1 week',                     enc:4, readied:false},
+      {name:'Mule and small cart',                 enc:0, readied:false},
+      {name:'Tinder box and 3 torches',            enc:1, readied:false},
+    ]
+  },
+  {
+    name:'Ranger or Archer',
+    desc:'Bow, axe, and trail supplies — light hunter kit for wilderness work.',
+    items:[
+      {name:'Buff Coat (AC 12)',                   enc:0, readied:true},
+      {name:'Bow, Large (1d8, no Shock)',           enc:2, readied:true},
+      {name:'20 arrows & quiver',                  enc:1, readied:true},
+      {name:'Hand Axe (1d6, Shock 1/AC 15)',       enc:1, readied:true},
+      {name:'Dagger (1d4, Shock 1/AC 15)',         enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Cooking utensils',                    enc:1, readied:false},
+      {name:'Rations, 1 week',                     enc:4, readied:false},
+      {name:'Waterskin',                           enc:1, readied:false},
+      {name:'Tinder box and 3 torches',            enc:1, readied:false},
+      {name:'20 silver pieces',                    enc:0, readied:false},
+    ]
+  },
+  {
+    name:'Armored Warrior',
+    desc:'Solid armor and shield — heavy frontline fighter with sword and dagger.',
+    items:[
+      {name:'Pieced Armor (AC 14)',                enc:2, readied:true},
+      {name:'Large Shield (+1 AC with armor)',     enc:1, readied:true},
+      {name:'Short Sword (1d6, Shock 2/AC 15)',    enc:1, readied:true},
+      {name:'Dagger (1d4, Shock 1/AC 15)',         enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Tinder box and 3 torches',            enc:1, readied:false},
+    ]
+  },
+  {
+    name:'Roguish Wanderer',
+    desc:'Light and mobile — buff coat, blades, rope, and rations for a roving rogue.',
+    items:[
+      {name:'Buff Coat (AC 12)',                   enc:0, readied:true},
+      {name:'Small Shield (AC 13 when held)',      enc:1, readied:true},
+      {name:'Short Sword (1d6, Shock 2/AC 15)',    enc:1, readied:true},
+      {name:'Throwing Blades, 5 (1d4, no Shock)', enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Rations, 1 week',                     enc:4, readied:false},
+      {name:'Waterskin',                           enc:1, readied:false},
+      {name:'Tinder box and 3 torches',            enc:1, readied:false},
+      {name:"Grappling hook and 50' rope",         enc:2, readied:false},
+    ]
+  },
+  {
+    name:'Gentry Wayfarer',
+    desc:'Presentable clothes, coin, and a sword — the well-bred traveler.',
+    items:[
+      {name:'Buff Coat (AC 12)',                   enc:0, readied:true},
+      {name:'Small Shield (AC 13 when held)',      enc:1, readied:true},
+      {name:'Short Sword (1d6, Shock 2/AC 15)',    enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Rations, 1 week',                     enc:4, readied:false},
+      {name:'Waterskin',                           enc:1, readied:false},
+      {name:'Fine suit of clothing',               enc:1, readied:false},
+      {name:'Writing kit & 20 sheets of paper',   enc:1, readied:false},
+      {name:'20 silver coins',                     enc:0, readied:false},
+    ]
+  },
+  {
+    name:'Mage, Healer, or Scholar',
+    desc:'Daggers, staff, lantern, and healer\'s pouch — the studious spellcaster.',
+    items:[
+      {name:'Dagger (1d4, Shock 1/AC 15)',         enc:1, readied:true},
+      {name:'Dagger (1d4, Shock 1/AC 15)',         enc:1, readied:true},
+      {name:'Staff (1d6, Shock 1/AC 13)',           enc:1, readied:true},
+      {name:'Backpack',                            enc:1, readied:false},
+      {name:'Lantern',                             enc:1, readied:false},
+      {name:'Tinder box and 2 flasks of oil',      enc:2, readied:false},
+      {name:'Writing kit & 20 sheets of paper',   enc:1, readied:false},
+      {name:'Rations, 1 week',                     enc:4, readied:false},
+      {name:'Waterskin',                           enc:1, readied:false},
+      {name:"Healer's pouch",                      enc:1, readied:false},
+      {name:'80 silver pieces',                    enc:0, readied:false},
+    ]
+  },
+];
+
 // entry types: skill=named skill, anySkill=player picks any, anyCombat=Stab/Shoot/Punch,
 //              anyStat=+1 any, physical=+2 STR/DEX/CON, mental=+2 INT/WIS/CHA
 const _g1={type:'anyStat'}, _phy={type:'physical'}, _men={type:'mental'}, _ask={type:'anySkill'}, _acm={type:'anyCombat'};
@@ -1473,6 +1567,36 @@ function renderWizStep4(w, step) {
       </div>`:''}
       <datalist id="foci-list">${FOCI.map(f=>`<option value="${f.name}">`).join('')}</datalist>
     </div>
+    <div class="section-box" style="margin-top:10px">
+      <div class="section-title">Starting Equipment</div>
+      <p class="muted" style="margin-bottom:8px;font-size:12px">Pick a package — or roll 3d6×10 for starting silver to buy your own gear.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:10px">
+        ${GEAR_PACKAGES.map(pkg=>`
+          <div class="class-card ${w.gearPackage===pkg.name?'selected':''}" data-action="wiz-gear-pkg" data-pkg="${esc(pkg.name)}"
+            style="text-align:left;cursor:pointer">
+            <h3 style="font-size:13px;margin-bottom:3px">${esc(pkg.name)}</h3>
+            <p style="font-size:11px">${esc(pkg.desc)}</p>
+          </div>`).join('')}
+        <div class="class-card ${w.gearPackage==='__silver__'?'selected':''}" data-action="wiz-gear-pkg" data-pkg="__silver__"
+          style="text-align:left;cursor:pointer">
+          <h3 style="font-size:13px;margin-bottom:3px">Roll for Silver</h3>
+          <p style="font-size:11px">Roll 3d6×10 sp and buy your own gear later.</p>
+        </div>
+      </div>
+      ${w.gearPackage && w.gearPackage !== '__silver__' ? (() => {
+        const pkg = GEAR_PACKAGES.find(p=>p.name===w.gearPackage);
+        if (!pkg) return '';
+        const readied = pkg.items.filter(i=>i.readied);
+        const stowed  = pkg.items.filter(i=>!i.readied);
+        return `<div style="font-size:12px;border:1px solid var(--border);border-radius:var(--rad);overflow:hidden">
+          <div style="padding:6px 10px;background:var(--surface2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Readied</div>
+          ${readied.map(i=>`<div style="display:flex;justify-content:space-between;padding:4px 10px;border-bottom:1px solid var(--border)"><span>${esc(i.name)}</span><span class="muted">enc ${i.enc}</span></div>`).join('')}
+          <div style="padding:6px 10px;background:var(--surface2);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Stowed</div>
+          ${stowed.map(i=>`<div style="display:flex;justify-content:space-between;padding:4px 10px;border-bottom:1px solid var(--border)"><span>${esc(i.name)}</span><span class="muted">enc ${i.enc}</span></div>`).join('')}
+        </div>`;
+      })() : ''}
+      ${w.gearPackage==='__silver__' ? `<p class="muted" style="margin-top:4px">Starting silver will be added to your gear list to spend.</p>` : ''}
+    </div>
     <div class="wizard-nav">
       <button data-action="wiz-back">← Back</button>
       <button class="btn-primary" data-action="wiz-finish">Roll HP &amp; Create →</button>
@@ -1919,6 +2043,7 @@ function handleClick(e) {
       if(btn.dataset.cls!=='Adventurer') S.w.combo=null;
       render(); break;
     case 'wiz-combo': S.w.combo=btn.dataset.combo; render(); break;
+    case 'wiz-gear-pkg': S.w.gearPackage=btn.dataset.pkg; render(); break;
     case 'wiz-method': {
       S.w.attrMethod=btn.dataset.method;
       // Reset attrs to defaults for the new method
@@ -2256,6 +2381,7 @@ function startWizard() {
     personalSkill:'',
     tradition:'', tradition2:'',
     focus1:'', focus2:'', focus3:'',
+    gearPackage:'',
   };
   render();
 }
@@ -2301,6 +2427,11 @@ function wizFinish() {
   w.focus1 = document.getElementById('wiz-focus1')?.value?.trim()||'';
   w.focus2 = document.getElementById('wiz-focus2')?.value?.trim()||'';
   w.focus3 = document.getElementById('wiz-focus3')?.value?.trim()||'';
+
+  if (!w.gearPackage) {
+    alert('Choose a starting equipment package (or Roll for Silver).');
+    return;
+  }
 
   const id = genId();
   const ch = newChar(id);
@@ -2361,6 +2492,19 @@ function wizFinish() {
   if (w.focus1) ch.foci.push({name:w.focus1, lvl:1});
   if (w.focus2) ch.foci.push({name:w.focus2, lvl:1});
   if (w.focus3) ch.foci.push({name:w.focus3, lvl:1});
+
+  // Apply starting gear
+  if (w.gearPackage === '__silver__') {
+    const sp = (Math.floor(Math.random()*6)+1 + Math.floor(Math.random()*6)+1 + Math.floor(Math.random()*6)+1) * 10;
+    ch.gear.push({id:genId(), name:`Starting silver (${sp} sp)`, enc:0, readied:false});
+  } else {
+    const pkg = GEAR_PACKAGES.find(p=>p.name===w.gearPackage);
+    if (pkg) {
+      for (const item of pkg.items) {
+        ch.gear.push({id:genId(), name:item.name, enc:item.enc, readied:item.readied});
+      }
+    }
+  }
 
   // Roll HP via dice modal
   const {sides, per} = getHdInfo(ch);
