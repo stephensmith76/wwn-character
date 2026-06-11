@@ -1616,17 +1616,19 @@ function renderWizStep3(w, step) {
                 ${['Stab','Shoot','Punch'].map(s=>`<button class="btn-sm ${r.skill===s?'btn-primary':''}" data-action="wiz-bg-roll-combat" data-idx="${i}" data-skill="${s}">${s}</button>`).join('')}
               </div></div>`;
           } else if ((r.entry.type==='anyStat')&&!r.attrDist) {
-            choiceHtml = `<div style="margin-top:6px"><p class="muted" style="font-size:11px">Choose attribute (+1):</p>
+            const curAttrs = w.attrs||{str:10,dex:10,con:10,int:10,wis:10,cha:10};
+            choiceHtml = `<div style="margin-top:6px"><p class="muted" style="font-size:11px">Choose attribute to raise by +1:</p>
               <div style="display:flex;gap:6px;flex-wrap:wrap">
-                ${ATTR_NAMES.map(a=>`<button class="btn-sm ${r.attrDist&&r.attrDist[a]?'btn-primary':''}" data-action="wiz-bg-roll-attr" data-idx="${i}" data-attr="${a}">${ATTR_LABELS[a]}</button>`).join('')}
+                ${ATTR_NAMES.map(a=>`<button class="btn-sm ${r.attrDist&&r.attrDist[a]?'btn-primary':''}" data-action="wiz-bg-roll-attr" data-idx="${i}" data-attr="${a}">${ATTR_LABELS[a]} <span class="muted">${curAttrs[a]}→${curAttrs[a]+1}</span></button>`).join('')}
               </div></div>`;
           } else if ((r.entry.type==='physical'||r.entry.type==='mental')&&Object.values(r.attrDist||{}).reduce((s,v)=>s+v,0)<2) {
             const pool = r.entry.type==='physical'?['str','dex','con']:['int','wis','cha'];
             const dist = r.attrDist||{};
             const distTotal = Object.values(dist).reduce((s,v)=>s+v,0);
+            const curAttrs = w.attrs||{str:10,dex:10,con:10,int:10,wis:10,cha:10};
             choiceHtml = `<div style="margin-top:6px"><p class="muted" style="font-size:11px">Distribute +2 among ${r.entry.type==='physical'?'STR/DEX/CON':'INT/WIS/CHA'} (split or all one):</p>
               <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">
-                ${pool.map(a=>{const cur=dist[a]||0;return `<button class="btn-sm" data-action="wiz-bg-roll-phymen" data-idx="${i}" data-attr="${a}" data-d="1" ${distTotal>=2||cur>=2?'disabled':''}>${ATTR_LABELS[a]} +${cur}</button>`;}).join('')}
+                ${pool.map(a=>{const cur=dist[a]||0;const base=curAttrs[a];const canAdd=distTotal<2&&cur<2;return `<button class="btn-sm${cur>0?' btn-primary':''}" data-action="wiz-bg-roll-phymen" data-idx="${i}" data-attr="${a}" data-d="1" ${!canAdd?'disabled':''}>${ATTR_LABELS[a]} <span class="muted">${base}${cur>0?'+'+cur:''}${canAdd?'→'+(base+cur+1):''}</span></button>`;}).join('')}
                 ${distTotal>0?`<button class="btn-sm" data-action="wiz-bg-roll-phymen-reset" data-idx="${i}">Reset</button>`:''}
               </div></div>`;
           }
