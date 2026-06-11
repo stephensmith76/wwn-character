@@ -47,13 +47,45 @@
 <body>
   <div id="root"></div>
 
+  <script>
+    // Show any script-level errors as visible text if React never mounts
+    window.addEventListener('error', function(e) {
+      const root = document.getElementById('root');
+      if (root && !root.firstChild) {
+        root.innerHTML = '<div style="padding:24px;font-family:monospace;color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;margin:24px">'
+          + '<b>Sheet failed to load</b><br><br>' + e.message + '<br><small>' + e.filename + ':' + e.lineno + '</small></div>';
+      }
+    });
+  </script>
   <script type="text/babel">
     const { useState, useEffect, useRef } = React;
-    const {
-      Feather, Sparkles, Shield, Sword, Heart, Compass,
-      Map, Pencil, Eye, Printer, Download, Upload, Trash2,
-      Plus, BookOpen, Sun, Moon, Leaf, Save, Settings, Info, Users
-    } = lucideReact;
+
+    // Safe icon loader — returns a no-op component if lucide-react didn't load
+    const _lu = window.lucideReact || {};
+    const _icon = (name) => _lu[name] || (({size, className, style}) =>
+      React.createElement('span', {className, style, 'aria-hidden': true}, null));
+    const Feather  = _icon('Feather');
+    const Sparkles = _icon('Sparkles');
+    const Shield   = _icon('Shield');
+    const Sword    = _icon('Sword');
+    const Heart    = _icon('Heart');
+    const Compass  = _icon('Compass');
+    const Map      = _icon('Map');
+    const Pencil   = _icon('Pencil');
+    const Eye      = _icon('Eye');
+    const Printer  = _icon('Printer');
+    const Download = _icon('Download');
+    const Upload   = _icon('Upload');
+    const Trash2   = _icon('Trash2');
+    const Plus     = _icon('Plus');
+    const BookOpen = _icon('BookOpen');
+    const Sun      = _icon('Sun');
+    const Moon     = _icon('Moon');
+    const Leaf     = _icon('Leaf');
+    const Save     = _icon('Save');
+    const Settings = _icon('Settings');
+    const Info     = _icon('Info');
+    const Users    = _icon('Users');
 
     const SPELL_TABLES = {
       full:    [[1,1,3],[1,1,3],[2,2,4],[2,2,5],[3,3,6],[3,3,7],[4,4,8],[4,4,9],[5,5,10],[5,6,12]],
@@ -1495,7 +1527,23 @@
       );
     }
 
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    class ErrorBoundary extends React.Component {
+      constructor(props) { super(props); this.state = { err: null }; }
+      static getDerivedStateFromError(err) { return { err }; }
+      render() {
+        if (this.state.err) return (
+          <div style={{padding:24,fontFamily:'monospace',color:'#b91c1c',background:'#fef2f2',border:'1px solid #fecaca',borderRadius:8,margin:24}}>
+            <b>Render error</b><br/><br/>{String(this.state.err)}<br/>
+            <small>Open browser DevTools (F12) → Console for details.</small>
+          </div>
+        );
+        return this.props.children;
+      }
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <ErrorBoundary><App /></ErrorBoundary>
+    );
   </script>
 </body>
 </html>
