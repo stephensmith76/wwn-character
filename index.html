@@ -1359,7 +1359,7 @@ function renderRoster() {
         <span class="char-meta">Lvl ${ch.level} ${getClassLabel(ch)}</span>
       </div>
       <div class="char-meta">${esc(ch.bg)||'No background'} &bull; HP ${ch.hpCurrent}/${ch.hpMax}</div>
-      <div class="char-card-actions" onclick="event.stopPropagation()">
+      <div class="char-card-actions">
         <button class="btn-sm btn-primary" data-action="send-to-sheet" data-id="${id}">Open Sheet</button>
         <button class="btn-sm" data-action="export-char" data-id="${id}">Export</button>
         <button class="btn-sm btn-danger" data-action="delete-char" data-id="${id}">Delete</button>
