@@ -1406,9 +1406,20 @@ function renderWizStep3(w, step) {
         ${BACKGROUNDS.map(b=>`<option value="${b.name}" ${bg===b.name?'selected':''}>${b.name} (free: ${b.freeCombat?'Any Combat':b.freeSkill+'-0'})</option>`).join('')}
       </select>
     </div>
+    <div class="section-box" style="margin-bottom:10px">
+      <div class="section-title">Personal Skill <span class="muted" style="font-size:10px;font-weight:normal;text-transform:none">(Step 9 — free pick, any skill)</span></div>
+      <p class="muted" style="margin-bottom:8px;font-size:12px">Pick any one skill to reflect your hero's outside interests, natural talents, or personal focus. This stacks with your background skills.</p>
+      <select data-action="wiz-personal-skill">
+        <option value="">— pick any skill —</option>
+        ${SKILLS.map(s=>`<option value="${s.name}" ${(w.personalSkill||'')=== s.name?'selected':''}>${s.name}</option>`).join('')}
+      </select>
+      ${w.personalSkill?`<p class="muted" style="margin-top:4px">
+        You'll start with <strong>${esc(w.personalSkill)}</strong> at rank 0 (or rank 1 if already rank 0 from your background).
+      </p>`:''}
+    </div>
     ${bgData?`
     <div class="section-box" style="margin-bottom:10px">
-      <div class="section-title">Free Skill</div>
+      <div class="section-title">Background Free Skill</div>
       <div class="flex" style="gap:8px">
         <span class="badge" style="font-size:13px">${esc(freeSkillLabel)}</span>
         ${bgData.freeCombat?`<div style="display:flex;gap:6px">${['Stab','Shoot','Punch'].map(s=>`<button class="btn-sm ${w.bgFreeCombat===s?'btn-primary':''}" data-action="wiz-bg-free-combat" data-skill="${s}">${s}</button>`).join('')}</div>`:''}
@@ -2096,6 +2107,9 @@ function handleChange(e) {
     S.w.bgFreeCombat = null;
     S.w.bgPickCombat = null;
     render();
+  } else if (action === 'wiz-personal-skill') {
+    S.w.personalSkill = el.value;
+    render();
   } else if (action === 'wiz-bg-roll-skill') {
     const idx=parseInt(el.dataset.idx);
     if(S.w.bgRolls&&S.w.bgRolls[idx]) S.w.bgRolls[idx].skill=el.value;
@@ -2239,6 +2253,7 @@ function startWizard() {
     name:'', bg:'',
     bgOption:'quick', bgPickedSkills:[], bgRolls:[],
     bgFreeCombat:null, bgPickCombat:null,
+    personalSkill:'',
     tradition:'', tradition2:'',
     focus1:'', focus2:'', focus3:'',
   };
@@ -2268,6 +2283,7 @@ function wizNext() {
     if(w.bgOption==='quick' && bgData?.quickSkills?.includes('__combat__') && !w.bgFreeCombat) { alert('Choose which combat skill (Stab/Shoot/Punch).'); return; }
     if(w.bgOption==='pick' && (w.bgPickedSkills||[]).length<2) { alert('Pick 2 skills from the Learning table.'); return; }
     if(w.bgOption==='pick' && (w.bgPickedSkills||[]).includes('__combat__') && !w.bgPickCombat) { alert('Choose which combat skill (Stab/Shoot/Punch).'); return; }
+    if(!w.personalSkill) { alert('Pick a personal skill (Step 9 — any skill of your choice).'); return; }
   }
   w.step = step+1;
   render();
@@ -2337,6 +2353,9 @@ function wizFinish() {
       }
     }
   }
+
+  // Apply personal skill pick (Step 9)
+  if (w.personalSkill) applySkillGain(ch, w.personalSkill);
 
   // Add foci
   if (w.focus1) ch.foci.push({name:w.focus1, lvl:1});
