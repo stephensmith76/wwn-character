@@ -1620,7 +1620,7 @@ function renderWizStep3(w, step) {
               <div style="display:flex;gap:6px;flex-wrap:wrap">
                 ${ATTR_NAMES.map(a=>`<button class="btn-sm ${r.attrDist&&r.attrDist[a]?'btn-primary':''}" data-action="wiz-bg-roll-attr" data-idx="${i}" data-attr="${a}">${ATTR_LABELS[a]}</button>`).join('')}
               </div></div>`;
-          } else if ((r.entry.type==='physical'||r.entry.type==='mental')&&!r.attrDist) {
+          } else if ((r.entry.type==='physical'||r.entry.type==='mental')&&Object.values(r.attrDist||{}).reduce((s,v)=>s+v,0)<2) {
             const pool = r.entry.type==='physical'?['str','dex','con']:['int','wis','cha'];
             const dist = r.attrDist||{};
             const distTotal = Object.values(dist).reduce((s,v)=>s+v,0);
