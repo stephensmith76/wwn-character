@@ -550,6 +550,137 @@ const SKILLS = [
 const SKILL_COSTS = [1, 2, 3, 4, 5]; // levels 0,1,2,3,4
 const SKILL_MIN_LEVELS = [1, 1, 3, 6, 9]; // char level required to buy each skill rank
 
+// ===== ARTS =====
+// Traditions that cast arcane spells (others use arts only)
+const SPELL_TRADITIONS = new Set(['High Mage','Necromancer','Elementalist']);
+
+const ARTS = {
+  'High Mage': [
+    {name:'Arcane Lexicon',           mandatory:false, desc:'Commit Effort for the scene to read any non-obfuscated script, including esoteric scripts, for the rest of the scene.'},
+    {name:'Counter Magic',            mandatory:false, desc:'Commit Effort for the day as an Instant action when an enemy mage casts a spell; both make opposed Int/Magic or Cha/Magic checks — if you win, the spell fizzles. Once per round.'},
+    {name:'Empowered Sorcery',        mandatory:false, desc:'Commit Effort for the day as an Instant action to re-roll any one variable die roll of a spell you cast and take the preferred result.'},
+    {name:'Hang Sorcery',             mandatory:false, desc:'Commit Effort for the scene as an Instant action when casting a spell to hold it "hung," releasing it later as an On Turn action. No other spells while a spell is hung.'},
+    {name:'Inexorable Effect',        mandatory:false, desc:'Commit Effort for the day as an Instant action to force an enemy to re-roll a successful saving throw and take the worse result. Once per scene.'},
+    {name:'Iron Resolution',          mandatory:false, desc:'Commit Effort for the day when injured or disturbed in combat; make a Physical save to avoid spell disruption and ignore the damage for spellcasting purposes.'},
+    {name:'Preparatory Countermagic', mandatory:false, desc:'Commit Effort for the scene when you would be affected by a prepared spell (including your own area spells) to be unaffected by its direct effects.'},
+    {name:'Psychic Conversion',       mandatory:false, desc:'Once per day as an On Turn action, expend one casting slot to remove 1 System Strain and heal 2 HP per character level.'},
+    {name:'Restrained Casting',       mandatory:false, desc:'Commit Effort for the day as an Instant action when casting a High Magic spell to cast in complete silence and without somatic gestures.'},
+    {name:'Retain Sorcery',           mandatory:false, desc:'Commit Effort for the day as an On Turn action after casting a spell; the spell does not count against your daily casting limits. Once per day; you cannot cast another spell until the end of your next turn.'},
+    {name:'Sense Magic',              mandatory:false, desc:'Commit Effort as an Instant action; while committed, you perceive magical energy visually and get a one-sentence description of any standing magic or item you inspect. You also see clearly in perfect darkness.'},
+    {name:'Suppress Magic',           mandatory:false, desc:'Commit Effort for the day as an On Turn action to suppress a visible magical effect within 100 feet for 1d6 + your level rounds (as Extirpate Arcana). One attempt per effect.'},
+    {name:'Swift Casting',            mandatory:false, desc:'Once per scene, Commit Effort for the day to cast a Main Action spell as an On Turn action. You cannot cast any other spell this round.'},
+    {name:'Ward Allies',              mandatory:false, desc:'Commit Effort for the day as an Instant action to exclude up to six allies from the effects of an area spell you are casting.'},
+    {name:'Wizard\'s Grandeur',       mandatory:false, desc:'Commit Effort as an On Turn action; while committed, you remain clean, unwrinkled, and comfortable in normal climates regardless of circumstances, and need no shelter or bedding to sleep.'},
+  ],
+  'Elementalist': [
+    {name:'Elemental Resilience', mandatory:true,  desc:'You are unharmed by mundane heat or cold short of a furnace. You take half damage from magical fire and frost attacks.'},
+    {name:'Elemental Sparks',    mandatory:true,  desc:'Conjure petty amounts of flame, water, ice, stone, or wind for minor tricks. Conjured substances last a scene at most and cannot solve significant challenges more than once per session.'},
+    {name:'Beckoned Deluge',     mandatory:false, desc:'Commit Effort for the scene as a Main Action to conjure one 10-foot cube of water per level at a point within 50 feet per level. It drenches the area, extinguishes flames, and deals 1d6 damage per level to fiery creatures.'},
+    {name:'Earthsight',          mandatory:false, desc:'Commit Effort for the scene as an On Turn action to see the outlines of solid objects in perfect darkness and peer through earth or stone for a distance equal to your character level.'},
+    {name:'Elemental Blast',     mandatory:false, desc:'Commit Effort for the scene as a Main Action to hurl an elemental bolt at a target within 50 feet per level. Make a Magic + level attack; on a hit deal 1d6 + level + attribute mod damage. Conjured matter vanishes at the end of the round.'},
+    {name:'Flamesight',          mandatory:false, desc:'Commit Effort as an On Turn action; while committed, see thermal gradients clearly in perfect darkness. You may optionally cause your eyes to emit 30 feet of illumination.'},
+    {name:'Pavis of Elements',   mandatory:false, desc:'Commit Effort as an On Turn action to conjure an elemental barrier granting +4 AC (stacks with armor up to AC 18) for as long as the Effort is committed.'},
+    {name:'Petrifying Stare',    mandatory:false, desc:'Commit Effort for the day as a Main Action; the target makes a Physical save or loses their Move action for rounds equal to half your level. Flying creatures land; swimming creatures sink.'},
+    {name:'Rune of Destruction', mandatory:false, desc:'Commit Effort for the day as a Main Action to inscribe a rune on an adjacent surface lasting one hour per level. Any creature entering within 2 feet triggers it for 2d6 + level elemental damage in a 5-foot radius.'},
+    {name:'Steps of Air',        mandatory:false, desc:'Commit Effort for the scene as an On Turn action to grant a visible ally flight at their normal movement for one round per level, or as an Instant action to negate falling damage for one target.'},
+    {name:'Stunning Shock',      mandatory:false, desc:'Commit Effort for the day as a Main Action to strike a target within 50 feet per level who is wearing metal or is wet; the target makes a Physical save or loses their next Main Action (save: loses Move instead). Once per scene per target.'},
+    {name:'Thermal Shield',      mandatory:false, desc:'Commit Effort for the scene as an Instant action to negate one instance of fire or frost damage to one visible ally or object.'},
+  ],
+  'Necromancer': [
+    {name:'Bonetalker',           mandatory:false, desc:'See and communicate with any undead regardless of language or invisibility. Commit Effort for the scene to sense the surface thoughts of visible undead, including commands and directives.'},
+    {name:'Cold Flesh',           mandatory:false, desc:'You no longer require sleep and feel pain abstractly. You suffer a maximum of 2 damage per instance of Shock. Your natural AC is 12 + half your level, rounded down.'},
+    {name:'Consume Life Energy',  mandatory:false, desc:'Each successful Punch attack or consecrated melee weapon strike drains life, healing you for 1d6 damage up to the damage dealt and no more than the target\'s remaining HP.'},
+    {name:'False Death',          mandatory:false, desc:'Commit Effort as an Instant action; while committed, you appear dead to mundane examination. You lose Main Actions but can move and perceive normally and need no food, water, or air.'},
+    {name:'Gravesight',           mandatory:false, desc:'Commit Effort as an On Turn action; while committed, you see the life energies of living creatures as glowing patterns regardless of illumination, perceive sickness and poisons on sight, and see in perfect darkness.'},
+    {name:'Keeper of the Gate',   mandatory:false, desc:'Mortally Wounded creatures within 20 feet per level die instantly at your discretion. Alternatively, Commit Effort for the day to automatically stabilize any target within range (costs them +1 System Strain).'},
+    {name:'Life Bridge',          mandatory:false, desc:'Commit Effort for the day; for the rest of the scene, touch two willing or helpless targets to shift HP between them as a Main Action. You can Mortally Wound the donor but cannot exceed the recipient\'s maximum HP.'},
+    {name:'Master of Bones',      mandatory:false, desc:'Undead roll twice on saving throws against your abilities and take the worse result. Commit Effort for the scene as an Instant action to negate any single undead attack, power, or spell (does not affect undead with 2× your levels or more).'},
+    {name:'Red Harvest',          mandatory:false, desc:'As an Instant action, whenever an intelligent living creature with 1+ HD dies within 50 feet, Commit Effort for the day to either heal 1d6 + level HP or gain +4 to your next attack this scene. Once per round.'},
+    {name:'Unaging',              mandatory:false, desc:'You no longer naturally age and are immune to poisons and diseases. You remain vigorous until the species\' maximum age plus 20% per character level, then collapse to dust.'},
+    {name:'Uncanny Ichor',        mandatory:false, desc:'Your blood is inhuman; predators are nauseated by it and will not bite you unless provoked. Stabbing and puncture wounds can Mortally Wound you but cannot kill you unless the injury is catastrophic.'},
+    {name:'Unliving Persistence', mandatory:false, desc:'Commit Effort for the day as an On Turn action to automatically stabilize when Mortally Wounded. Can also benefit a creature you are touching. Does not prevent truly catastrophic death.'},
+  ],
+  'Healer': [
+    {name:'Healing Touch',      mandatory:true,  desc:'Commit Effort for the scene; for the rest of the scene, heal 2d6 + Heal skill to a touched ally as a Main Action. Each use adds 1 System Strain to the target.'},
+    {name:'Empowered Healer',   mandatory:false, desc:'Your Healing Touch heals an additional amount equal to your character level.'},
+    {name:'Facile Healer',      mandatory:false, desc:'You no longer need to Commit Effort to activate Healing Touch.'},
+    {name:'Far Healer',         mandatory:false, desc:'Healing Touch functions on any visible target within 10 feet per character level.'},
+    {name:'Final Repose',       mandatory:false, desc:'Commit Effort for the day as an Instant action; for the rest of the scene, the target takes saving throw penalties equal to your Heal skill. If reduced to 0 HP, they die instantly with no chance of stabilization.'},
+    {name:'Healer\'s Eye',      mandatory:false, desc:'Commit Effort as an On Turn action; while committed, you can use a Main Action to detect diseases, poisons, and HP totals on sight. You see living creatures as glowing shapes regardless of illumination.'},
+    {name:'Limb Restoration',   mandatory:false, desc:'Level 8+ only. Commit all remaining Effort for the day (minimum 1) to regenerate a missing limb or organ for a touched target or erase a dramatic scar. Target\'s System Strain is maximized.'},
+    {name:'Purge Ailment',      mandatory:false, desc:'Commit Effort for the day as a Main Action to cure one poison or disease in a touched ally. At 7th level, only commit Effort for the scene instead.'},
+    {name:'Refined Restoration', mandatory:false, desc:'You and up to a dozen allies you personally tend before sleeping lose 2 System Strain from rest instead of 1.'},
+    {name:'Revive the Fallen',  mandatory:false, desc:'Level 8+ only. Commit Effort for the day as a Main Action to revive a creature that died within one minute per level; the target wakes after 24 hours with 1 HP and maximized System Strain.'},
+    {name:'Swift Healer',       mandatory:false, desc:'Healing Touch can be used as an On Turn action once per day per character level, but not more than once per scene per target.'},
+    {name:'The Healer\'s Knife', mandatory:false, desc:'Your Healing Touch can instead deal its healing amount as damage to a living target; you take 1 System Strain instead of the target. Requires a successful Punch attack.'},
+    {name:'Tireless Vigor',     mandatory:false, desc:'Commit Effort; while committed, you do not need food, water, air, or sleep, and you regenerate 1 HP per hour.'},
+    {name:'Vital Furnace',      mandatory:false, desc:'Commit Effort for the day as an Instant action to negate the damage from a just-received non-lethal injury. If reduced to 0 HP, you automatically stabilize and wake 10 minutes later with 1 HP.'},
+  ],
+  'Vowed': [
+    {name:'Martial Style',       mandatory:true,  desc:'Your hit die cannot be worse than 1d6 per level. Your Punch hit bonus is no worse than an Expert of the same level. At 3rd level, your Punch counts as a magic weapon.'},
+    {name:'Unarmed Might',       mandatory:true,  desc:'Your unarmed damage scales with level: 1d6 (levels 1-2), 1d8 (3-5), 1d10 (6-8), 1d10+2/+3 (9-10). Add your Punch skill to damage as normal.'},
+    {name:'Unarmored Defense',   mandatory:true,  desc:'While unarmored and without a shield, your base AC is 13 + half your level, rounded down.'},
+    {name:'Brutal Counter',      mandatory:false, desc:'Commit Effort for the scene as an Instant action after any enemy melee attack (hit or miss) to make a free physical attack against that assailant. Once per round per foe.'},
+    {name:'Faultless Awareness', mandatory:false, desc:'You cannot be surprised and always wake from sleep in time to respond to imminent peril.'},
+    {name:'Hurling Throw',       mandatory:false, desc:'After a successful attack, Commit Effort for the scene as an Instant action; the target makes a Physical save or is thrown 10 feet in any direction and knocked prone. Once per round per target (max ox-sized).'},
+    {name:'The Inward Eye',      mandatory:false, desc:'Commit Effort as an On Turn action; while committed, you have mystical awareness of your surroundings equivalent to normal sight regardless of darkness, blindness, or closed eyes.'},
+    {name:'Leap of the Heavens', mandatory:false, desc:'Commit Effort for the scene as a Move action to leap up to your full movement horizontally or half vertically. As an Instant action, negate falling damage for any distance.'},
+    {name:'Master\'s Vigor',     mandatory:false, desc:'Your body retains vigor to your species\' full natural lifespan. You naturally regenerate 2 HP per hour.'},
+    {name:'Mob Justice',         mandatory:false, desc:'Commit Effort for the day as an Instant action; for the rest of the scene, you are immune to the Swarm Attack maneuver and to Shock while in melee with 2 or more foes.'},
+    {name:'Nimble Ascent',       mandatory:false, desc:'Commit Effort for the scene as an On Turn action to move on vertical, overhanging, or difficult surfaces at full speed with no slip or fall chance. Requires one free hand.'},
+    {name:'Purified Body',       mandatory:false, desc:'Commit Effort for the day as an Instant action to cure any disease or poison, or to negate your need for sleep, food, water, or air for 24 hours.'},
+    {name:'Revivifying Breath',  mandatory:false, desc:'Commit Effort for the day as an On Turn action to heal 1d6 + level HP (no System Strain). If used at 0 HP, commits all remaining Effort for the day. Once per scene.'},
+    {name:'Shattering Strike',   mandatory:false, desc:'After a full round of preparation, Commit Effort for the day; next round your unarmed attack shatters a wooden barrier (stone at level 4+, metal at level 7+). Deals 1d12 per level against immobilized targets.'},
+    {name:'Style Weaponry',      mandatory:false, desc:'Choose three weapon classes. You may use your Punch skill for hit rolls with these weapons; Punch does not add to weapon damage but all Martial Style bonuses apply.'},
+    {name:'Unobtrusive Step',    mandatory:false, desc:'Once per scene, Commit Effort for the day as an Instant action to reroll a failed Sneak or impersonation check.'},
+  ],
+  'Beastmaster': [
+    {name:'Bind Companion',       mandatory:true,  desc:'Spend a day searching to find and bind a suitable animal companion; in the field, bind as a Main Action (creature gets a Mental save to resist). You may have one companion at a time.'},
+    {name:'Beast Ward',           mandatory:false, desc:'Commit Effort as an On Turn action; while committed, unintelligent beasts will not attack you unless commanded, starving, or you are hostile to them. Magical beasts and trained guardians get a Mental save.'},
+    {name:'Eyes of the Beast',    mandatory:false, desc:'Commit Effort for the scene as an On Turn action to share senses with your animal companion for the rest of the scene. Neither of you can be surprised unless both are.'},
+    {name:'Feral Toughness',      mandatory:false, desc:'Your max HP increases by your companion\'s unmodified hit dice. You are impervious to mundane outdoor heat and cold extremes. Your base AC is 13 + half your level, rounded up.'},
+    {name:'Howl of Distant Summons', mandatory:false, desc:'Commit Effort for the day as a Main Action; your call reaches a former companion through time and space, who arrives within 5 minutes. Requires a Cha/Survive DC 10 check if the journey is long or dangerous.'},
+    {name:'Know the Weak Spot',   mandatory:false, desc:'Roll damage twice when attacking beasts and take the higher result. Alternatively, Commit Effort for the scene as an Instant action when an ally hits a beast to allow them to roll damage twice and take the better result.'},
+    {name:'Mind Call',            mandatory:false, desc:'Commit Effort for the scene as an On Turn action to forge a telepathic bond with your animal companion, sending orders and receiving information at the creature\'s level of intellect.'},
+    {name:'Natural Weaponry',     mandatory:false, desc:'You have grown fangs or claws that deal 1d8 damage (Shock 2/AC 13) using Str/Dex and Punch or Stab. Damage increases by +1 at levels 3, 6, and 9. They harm creatures immune to non-magical weapons.'},
+    {name:'Savage Senses',        mandatory:false, desc:'Commit Effort for the scene as an On Turn action to see in pitch darkness, track by scent, and gain a +2 bonus to Notice checks involving sight, sound, or smell for the rest of the scene.'},
+    {name:'Shared Vitality',      mandatory:false, desc:'Your animal companion\'s hit dice are never lower than your character level and their hit bonus is never worse than half their HD. Commit Effort for the scene as an Instant action to stabilize a Mortally Wounded companion.'},
+    {name:'Swift Healing',        mandatory:false, desc:'Commit Effort for the day as a Main Action to heal 1d6 per level to your wounded animal companion. Once per scene or per 15 minutes.'},
+    {name:'Tongue of the Beasts', mandatory:false, desc:'Commit Effort as an On Turn action; while committed, you can speak with any furred, feathered, or scaled animal and understand its responses, though the animal\'s interests and knowledge remain its own.'},
+  ],
+  'Duelist': [
+    {name:'Favored Weapon',        mandatory:true,  desc:'Choose one melee weapon type. Your hit bonus with that weapon uses the Duelist table (or the Warrior table if better). Cannot apply to thrown weapons. You begin play with such a weapon.'},
+    {name:'Blood for Blood',       mandatory:false, desc:'Commit Effort for the scene as an Instant action after being physically struck; if you hit that enemy with your favored weapon before the end of your next round, the first blow hits automatically and deals no less than the damage you just took (up to weapon maximum).'},
+    {name:'Burst of Speed',        mandatory:false, desc:'Commit Effort for the day as an On Turn action to move your full normal movement rate as an additional On Turn action. Once per round.'},
+    {name:'Code Duello',           mandatory:false, desc:'Commit Effort for the day as an On Turn action when engaged with a single foe; while no third party attacks either of you and you attack only that foe, you gain +4 AC and roll hit rolls twice, taking the better. Ends when disrupted.'},
+    {name:'Crushing Superiority',  mandatory:false, desc:'Your favored weapon gains the Less Lethal quality if it lacks it. Commit Effort for the scene as an Instant action when you hit a target; they must immediately make a Morale check. Once per scene per target.'},
+    {name:'Dauntless Step',        mandatory:false, desc:'Commit Effort for the scene as an On Turn action; your Move actions this round cross vertical surfaces and difficult terrain at full speed, ending the round on a weight-bearing surface.'},
+    {name:'Dodge Doom',            mandatory:false, desc:'Commit Effort for the day as an Instant action when caught in an explosion or burst to take half damage (or none on a successful save) and move up to 10 feet toward cover.'},
+    {name:'Forced Engagement',     mandatory:false, desc:'Commit Effort for the scene as an Instant action when attacking with your favored weapon to ignore one foe\'s Screen Ally action for that attack.'},
+    {name:'Gentleman\'s Withdrawal', mandatory:false, desc:'Commit Effort for the scene as a Move action to move at full speed without being hindered by armed foes unless they completely block the path. Counts as a Fighting Withdrawal.'},
+    {name:'Graceful Leap',         mandatory:false, desc:'Commit Effort for the scene as an On Turn action to leap 10 feet horizontally or vertically (counts as a Fighting Withdrawal). You are immune to falling damage under 30 feet.'},
+    {name:'Lightning Draw',        mandatory:false, desc:'Commit Effort for the day as an Instant action at the start of combat to automatically win initiative (vs. foes without a similar ability) and instantly ready a stowed favored weapon.'},
+    {name:'Piercing Strike',       mandatory:false, desc:'Commit Effort for the scene as an On Turn action; choose a visible target — their AC is treated as 10 when resisting your favored weapon\'s Shock for the rest of the scene.'},
+    {name:'Spiritual Weapon',      mandatory:false, desc:'You can translate your favored weapon into a spiritual template, allowing you to manifest a ghostly copy as a Readied weapon by Committing Effort as an Instant action.'},
+    {name:'Unbindable',            mandatory:false, desc:'Commit Effort for the day as an On Turn action to instantly escape chains, grapples, shackles, ropes, or magical physical binding (Evasion save vs. magical restraints). Once per round.'},
+    {name:'Unworthy Rabble',       mandatory:false, desc:'Commit Effort for the day as an On Turn action; for the rest of the scene, you reroll failed hits against 1 HD foes with your favored weapon. At 8th level this extends to 2 HD foes.'},
+    {name:'Whirling Evasion',      mandatory:false, desc:'Your base AC is 13 + half your level, rounded up. This can be modified by small shields and your Dex modifier, but not by armor or large shields.'},
+  ],
+};
+
+// Traditions that have arts but NO arcane spell slots
+const ARTS_ONLY_TRADITIONS = new Set(['Healer','Vowed','Beastmaster','Duelist']);
+
+// Mandatory arts auto-granted at level 1 per tradition
+function getMandatoryArts(tradition) {
+  return (ARTS[tradition] || []).filter(a => a.mandatory);
+}
+
+// Starting optional art picks per tradition at level 1
+function getStartingArtCount(tradition) {
+  return 1; // all traditions get 1 optional art pick at level 1
+}
+
 // WWN p.11-17 — backgrounds with full skill tables
 // growth/learning: 0-indexed arrays (index 0 = die result 1)
 // Starting equipment packages (WWN p.29)
@@ -883,6 +1014,7 @@ function newChar(id) {
       prepared:[],       // subset of known currently prepared
       slotsUsed:0,       // slots expended today
     },
+    arts:[],             // [{name, tradition}]
     gear:[],             // [{id,name,enc,readied}]
     notes:'',
     goal:'',
@@ -913,10 +1045,19 @@ function getSaves(ch) {
   };
 }
 
-function isSpellcaster(ch) {
+function hasMageClass(ch) {
+  // Has any mage-type partial class (spellcasting or arts-only)
   if (ch.cls === 'Mage') return true;
-  if (ch.cls === 'Adventurer') return COMBO_DATA[ch.combo].hasMage;
+  if (ch.cls === 'Adventurer') return !!(COMBO_DATA[ch.combo]?.hasMage);
   return false;
+}
+
+function isSpellcaster(ch) {
+  // Has arcane spell slots (High Mage, Necromancer, Elementalist only)
+  if (!hasMageClass(ch)) return false;
+  const t1 = ch.tradition  || '';
+  const t2 = ch.tradition2 || '';
+  return SPELL_TRADITIONS.has(t1) || SPELL_TRADITIONS.has(t2);
 }
 
 function spellTableType(ch) {
@@ -1296,17 +1437,17 @@ function renderWizStep1(w, step) {
           <div class="partial-btn ${combo===k?'selected':''}" data-action="wiz-combo" data-combo="${k}">${v.label}</div>`).join('')}
       </div>
     </div>`:''}
-    ${cls==='Mage'||cls==='Adventurer'?`<div class="field-group">
-      <label>Arcane Tradition${cls==='Adventurer'&&combo==='MM'?' (Primary)':cls==='Adventurer'?' (Tradition)':''}</label>
-      <select id="wiz-tradition">
+    ${(cls==='Mage'||(cls==='Adventurer'&&COMBO_DATA[combo]?.hasMage))?`<div class="field-group">
+      <label>Tradition${cls==='Adventurer'&&combo==='MM'?' (Primary)':''}</label>
+      <select id="wiz-tradition" data-action="wiz-tradition">
         <option value="">— Choose tradition —</option>
-        ${['High Mage','Necromancer','Elementalist','Healer','Vowed'].map(t=>`
+        ${['High Mage','Necromancer','Elementalist','Healer','Vowed','Beastmaster','Duelist'].map(t=>`
           <option value="${t}" ${(w.tradition||'')=== t?'selected':''}>${t}</option>`).join('')}
       </select>
       ${cls==='Adventurer'&&combo==='MM'?`<label style="margin-top:6px">Second Tradition</label>
-        <select id="wiz-tradition2">
+        <select id="wiz-tradition2" data-action="wiz-tradition2">
           <option value="">— Choose tradition —</option>
-          ${['High Mage','Necromancer','Elementalist','Healer','Vowed'].map(t=>`
+          ${['High Mage','Necromancer','Elementalist','Healer','Vowed','Beastmaster','Duelist'].map(t=>`
             <option value="${t}" ${(w.tradition2||'')=== t?'selected':''}>${t}</option>`).join('')}
         </select>`:''}
     </div>`:''}
@@ -1620,33 +1761,93 @@ function renderWizStep4(w, step) {
   </div>`;
 }
 
+function renderWizArtsPicker(w, tradition) {
+  if (!tradition || !ARTS[tradition]) return '';
+  const arts = ARTS[tradition];
+  const mandatory = arts.filter(a => a.mandatory);
+  const optional  = arts.filter(a => !a.mandatory);
+  const chosen = (w.startingArts||{})[tradition] || '';
+  const tc = tradColor(tradition);
+  return `<div style="margin-bottom:10px">
+    <div style="font-weight:600;font-size:13px;color:${tc};margin-bottom:6px">${esc(tradition)}</div>
+    ${mandatory.length ? `<div style="margin-bottom:6px">
+      <div class="muted" style="font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Auto-granted</div>
+      ${mandatory.map(a=>`<div style="padding:5px 8px;margin-bottom:4px;border-radius:var(--rad);border:1px solid ${tc}40;background:${tc}0a">
+        <span style="font-weight:600;font-size:12px">${esc(a.name)}</span>
+        <span style="margin-left:6px;font-size:10px;padding:1px 5px;border-radius:4px;background:${tc}20;color:${tc}">Free</span>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(a.desc)}</div>
+      </div>`).join('')}
+    </div>`:''}
+    <div class="muted" style="font-size:11px;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">Pick 1 optional art</div>
+    <div style="max-height:220px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rad)">
+      ${optional.map(a=>{
+        const isSel = chosen === a.name;
+        return `<div class="spell-lib-item" data-action="wiz-art-pick" data-tradition="${esc(tradition)}" data-art="${esc(a.name)}"
+          style="cursor:pointer;background:${isSel?'var(--surface2)':'var(--surface)'}">
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:12px">${esc(a.name)}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(a.desc)}</div>
+          </div>
+          <div style="flex-shrink:0;margin-left:8px;color:${isSel?'var(--accent2)':'var(--muted)'}">${isSel?'✓':''}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    ${chosen?`<p class="muted" style="font-size:11px;margin-top:4px">Selected: <strong>${esc(chosen)}</strong></p>`:''}
+  </div>`;
+}
+
 function renderWizStep5(w, step) {
-  const cls = w.cls || 'Expert';
+  const cls   = w.cls   || 'Expert';
   const combo = w.combo || 'ExW';
-  const isSpell = cls==='Mage' || (cls==='Adventurer' && COMBO_DATA[combo].hasMage);
-  if (!isSpell) return '';
-  const spellCount = (cls==='Mage' || COMBO_DATA[combo].dualMage) ? 4 : 2;
-  const accessible = getAccessibleTraditions({tradition: w.tradition||'', tradition2: w.tradition2||''});
-  const availSpells = SPELL_LIST.filter(s => s.lvl===1 && accessible.has(s.tradition));
-  const selected = w.startingSpells || [];
-  const tradList = [...accessible].join(' + ');
+  const hasMage = cls==='Mage' || (cls==='Adventurer' && COMBO_DATA[combo]?.hasMage);
+  if (!hasMage) return '';
+
+  const t1 = w.tradition  || '';
+  const t2 = w.tradition2 || '';
+  const traditions = [t1, ...(cls==='Adventurer'&&COMBO_DATA[combo]?.dualMage&&t2&&t2!==t1?[t2]:[])].filter(Boolean);
+
+  // Spell section (arcane traditions only)
+  const spellTraditions = traditions.filter(t => SPELL_TRADITIONS.has(t));
+  const isDualOrFull    = cls==='Mage' || (cls==='Adventurer'&&COMBO_DATA[combo]?.dualMage);
+  const spellCount      = isDualOrFull ? 4 : 2;
+  const accessible      = getAccessibleTraditions({tradition: t1, tradition2: t2});
+  const availSpells     = SPELL_LIST.filter(s => s.lvl===1 && accessible.has(s.tradition));
+  const selected        = w.startingSpells || [];
+  const needsSpells     = spellTraditions.length > 0;
+
+  // Arts validation
+  const artsReady = traditions.every(t => {
+    if (!ARTS[t]) return true;
+    const opts = ARTS[t].filter(a=>!a.mandatory);
+    return opts.length===0 || (w.startingArts||{})[t];
+  });
+  const spellsReady = !needsSpells || selected.length >= spellCount;
 
   return `<div class="wizard-step ${step===5?'active':''}" id="wiz-5">
-    <div class="step-indicator">Step 5 — Starting Spells</div>
-    <div class="section-box">
+    <div class="step-indicator">Step 5 — Starting Arts${needsSpells?' &amp; Spells':''}</div>
+
+    ${traditions.length===0 ? `<div class="section-box">
+      <p class="muted">Go back to Step 1 and choose a tradition.</p>
+    </div>` : `
+    <div class="section-box" style="margin-bottom:10px">
+      <div class="section-title">Starting Arts</div>
+      <p class="muted" style="margin-bottom:10px;font-size:12px">Each tradition automatically grants certain arts and lets you pick one more optional art.</p>
+      ${traditions.map(t => renderWizArtsPicker(w, t)).join('')}
+    </div>`}
+
+    ${needsSpells ? `<div class="section-box">
       <div class="section-title">Choose ${spellCount} Starting Level 1 Spell${spellCount>1?'s':''}</div>
-      <p class="muted" style="margin-bottom:8px">
-        ${spellCount===4?'Full and dual partial mages':'Partial mages'} begin with
-        <strong>${spellCount} Level 1 spell${spellCount>1?'s':''}</strong> known.
-        Your tradition${accessible.size>1?'s':''}: <strong>${tradList||'none selected'}</strong>.
+      <p class="muted" style="margin-bottom:8px;font-size:12px">
+        ${isDualOrFull?'Full and dual partial mages':'Partial mages'} begin with
+        <strong>${spellCount} Level 1 spell${spellCount>1?'s':''}</strong> known from accessible traditions.
       </p>
       <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px">
         <span style="font-size:13px;font-weight:600">${selected.length} / ${spellCount} selected</span>
         ${selected.length===spellCount?`<span style="color:#22c55e;font-size:12px">✓ Ready</span>`:''}
       </div>
       ${availSpells.length===0
-        ? `<p class="muted" style="padding:12px 0">No Level 1 spells available — go back to Step 1 and choose a casting tradition.</p>`
-        : `<div style="max-height:350px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rad)">
+        ? `<p class="muted" style="padding:8px 0">No Level 1 spells available — go back and choose a spell tradition.</p>`
+        : `<div style="max-height:300px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rad)">
             ${availSpells.map(s=>{
               const isSel = selected.includes(s.name);
               return `<div class="spell-lib-item" data-action="wiz-spell-toggle" data-spell="${esc(s.name)}"
@@ -1656,12 +1857,13 @@ function renderWizStep5(w, step) {
                   <div style="font-size:11px;color:${tradColor(s.tradition)}">${s.tradition}</div>
                   <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(s.desc)}</div>
                 </div>
-                <div style="flex-shrink:0;margin-left:8px;font-size:16px;color:${isSel?'var(--accent2)':'var(--muted)'}">${isSel?'✓':''}</div>
+                <div style="flex-shrink:0;margin-left:8px;color:${isSel?'var(--accent2)':'var(--muted)'}">${isSel?'✓':''}</div>
               </div>`;
             }).join('')}
           </div>`
       }
-    </div>
+    </div>` : ''}
+
     <div class="wizard-nav">
       <button data-action="wiz-back">← Back</button>
       <button class="btn-primary" data-action="wiz-finish">Roll HP &amp; Create →</button>
@@ -1674,7 +1876,7 @@ function renderWizStep5(w, step) {
 function renderSheet() {
   const ch = getChar();
   if (!ch) return renderRoster();
-  const tabs = ['overview','attributes','skills','combat',...(isSpellcaster(ch)?['spells']:[]),'gear','notes'];
+  const tabs = ['overview','attributes','skills','combat',...(hasMageClass(ch)?['spells']:[]),'gear','notes'];
   const tab = S.tab;
   return `<div class="sheet-layout">
     ${renderSheetHeader(ch)}
@@ -1789,6 +1991,26 @@ function renderOverview(ch) {
       </div>`;
     }).join('')}
   </div>`:''}
+  ${(()=>{
+    const abilities = ch.cls==='Adventurer' ? getComboAbilities(ch) : (CLASS_DATA[ch.cls]?.abilities||[]);
+    const abilityDescs = {
+      'Masterful Expertise': 'Once per scene, reroll any non-combat skill check as an Instant action.',
+      'Quick Learner': 'Each level gain an extra skill point for non-combat skills or raising attributes.',
+      "Veteran's Luck": "Once per scene as Instant: turn your missed attack into a hit, OR turn a hit against you into a miss.",
+      'Killing Blow': 'Add ½ your level (rounded up) to all damage you inflict, including Shock.',
+      'Arcane Tradition': 'You belong to a magical tradition. See the Spells tab for casting details.',
+      'Partial Expert': 'Quick Learner only — no Masterful Expertise.',
+      'Partial Warrior': 'Improved HD and attack bonus only — no Veteran\'s Luck or Killing Blow.',
+      'Partial Mage': 'Reduced spell slots — see Spells tab.',
+    };
+    return `<div class="section-box">
+      <div class="section-title">Class Abilities</div>
+      ${abilities.map(name=>`<div class="ability-block">
+        <div class="ability-name">${name}</div>
+        <div class="ability-desc">${abilityDescs[name]||''}</div>
+      </div>`).join('')}
+    </div>`;
+  })()}
   <div class="section-box">
     <div class="section-title">Character Goal</div>
     <input type="text" value="${esc(ch.goal||'')}" data-field="goal" data-action="field-update"
@@ -1926,24 +2148,87 @@ function renderCombat(ch) {
 
 function getComboAbilities(ch) {
   const combo = COMBO_DATA[ch.combo];
-  const out = [];
-  if (combo.hasExpert) out.push('Partial Expert', 'Quick Learner');
-  if (combo.hasMage) out.push('Partial Mage', 'Arcane Tradition');
-  if (!combo.hasExpert && !combo.hasMage) out.push('Partial Warrior');
   if (combo.dualMage) return ['Partial Mage', 'Arcane Tradition'];
+  const out = [];
+  if (combo.hasExpert) out.push('Quick Learner', 'Partial Expert');
+  // Warrior component: ExW (!hasMage) and WaM (!hasExpert) both include partial warrior
+  if (!combo.hasExpert || !combo.hasMage) out.push('Partial Warrior');
+  if (combo.hasMage) out.push('Partial Mage', 'Arcane Tradition');
   return out;
+}
+
+function renderArtsSection(ch) {
+  const arts = ch.arts || [];
+  const t1 = ch.tradition||'', t2 = ch.tradition2||'';
+  const traditions = [...new Set([t1, t2].filter(Boolean))];
+  const allTradArts = traditions.flatMap(t => (ARTS[t]||[]).map(a=>({...a,tradition:t})));
+  const effort = getEffortMax(ch);
+
+  return `<div class="section-box" style="margin-bottom:10px">
+    <div class="section-title">Arts
+      <span class="muted" style="font-size:11px;font-weight:normal;text-transform:none">Effort: ${effort}</span>
+    </div>
+    ${arts.length===0 ? `<p class="muted" style="font-size:12px">No arts yet. Gain arts when leveling up.</p>` : ''}
+    ${arts.map(a=>{
+      const def = allTradArts.find(x=>x.name===a.name)||(ARTS[a.tradition]||[]).find(x=>x.name===a.name)||{};
+      const tc = tradColor(a.tradition);
+      return `<div style="padding:6px 0;border-bottom:1px solid var(--surface2)">
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+          <span style="font-weight:600;font-size:13px">${esc(a.name)}</span>
+          <span style="font-size:10px;padding:1px 5px;border-radius:4px;background:${tc}18;color:${tc};border:1px solid ${tc}30">${esc(a.tradition)}</span>
+          ${def.mandatory?`<span style="font-size:10px;padding:1px 5px;border-radius:4px;background:var(--surface2);color:var(--muted)">Auto</span>`:''}
+          <button class="btn-sm btn-danger" style="margin-left:auto;font-size:10px;padding:1px 6px" data-action="art-remove" data-name="${esc(a.name)}">×</button>
+        </div>
+        ${def.desc?`<div style="font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5">${esc(def.desc)}</div>`:''}
+      </div>`;
+    }).join('')}
+    <div style="margin-top:8px">
+      <div class="muted" style="font-size:11px;margin-bottom:4px">Add art from tradition:</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${traditions.map(t=>`<button class="btn-sm" data-action="art-add-open" data-tradition="${esc(t)}"
+          style="font-size:11px;border-color:${tradColor(t)}60;color:${tradColor(t)}">${esc(t)}</button>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function getEffortMax(ch) {
+  const t1 = ch.tradition||'', t2 = ch.tradition2||'';
+  // Effort base by tradition
+  const getMod = a => attrMod(ch.attrs[a]||10);
+  let effort = 0;
+  if (ARTS_ONLY_TRADITIONS.has(t1) || SPELL_TRADITIONS.has(t1) || ARTS[t1]) {
+    const magicRk = Math.max(-1, getSkillRank(ch,'Magic'));
+    const healRk  = Math.max(-1, getSkillRank(ch,'Heal'));
+    const srvRk   = Math.max(-1, getSkillRank(ch,'Survive'));
+    const stabRk  = Math.max(-1, getSkillRank(ch,'Stab'));
+    if (t1==='Healer' || t2==='Healer') {
+      effort = Math.max(1, 1 + healRk + Math.max(getMod('int'),getMod('cha')));
+    } else if (t1==='Beastmaster' || t2==='Beastmaster') {
+      effort = Math.max(1, 1 + srvRk + Math.max(getMod('wis'),getMod('cha')));
+    } else if (t1==='Duelist' || t2==='Duelist') {
+      effort = Math.max(1, 1 + stabRk + Math.max(getMod('dex'),getMod('int')));
+    } else {
+      const base = 1 + magicRk + Math.max(getMod('int'),getMod('cha'));
+      const isPartial = ch.cls==='Adventurer' && !COMBO_DATA[ch.combo]?.dualMage;
+      effort = Math.max(1, isPartial ? base - 1 : base);
+    }
+  }
+  return effort;
 }
 
 function renderSpells(ch) {
   const slots = getSpellSlots(ch);
-  if (!slots) return `<p class="muted">No spellcasting ability.</p>`;
+  const isSpell = isSpellcaster(ch);
   const spells = ch.spells;
-  const tableType = spellTableType(ch);
+  const tableType = isSpell ? spellTableType(ch) : null;
   const tradition = ch.tradition ? ` (${esc(ch.tradition)}${ch.tradition2?' / '+esc(ch.tradition2):''})` : '';
   const accessible = getAccessibleTraditions(ch);
   const libLabel = [...accessible].join(' + ');
 
   return `
+  ${renderArtsSection(ch)}
+  ${isSpell && slots ? `
   <div class="section-box" style="margin-bottom:10px">
     <div class="section-title">Spell Slots — ${tableType==='full'?'Full Mage':tableType==='dual'?'Dual Partial Mage':'Partial Mage'}${tradition}</div>
     <div class="spell-slots">
@@ -2007,7 +2292,7 @@ function renderSpells(ch) {
       <input type="text" id="new-spell-name" placeholder="Custom spell name…">
       <button class="btn-sm btn-primary" data-action="spell-add">Add</button>
     </div>
-  </div>`;
+  </div>` : ''}`;
 }
 
 function renderGear(ch) {
@@ -2135,6 +2420,13 @@ function handleClick(e) {
       else if (arr.length < maxPick) { arr.push(spName); }
       else { alert(`You can only pick ${maxPick} starting spells.`); break; }
       w.startingSpells = arr;
+      render(); break;
+    }
+    case 'wiz-art-pick': {
+      const trad = btn.dataset.tradition;
+      const artName = btn.dataset.art;
+      if (!S.w.startingArts) S.w.startingArts = {};
+      S.w.startingArts[trad] = S.w.startingArts[trad] === artName ? '' : artName;
       render(); break;
     }
     case 'wiz-method': {
@@ -2289,6 +2581,29 @@ function handleClick(e) {
       saveAll(); render(); break;
     }
 
+    case 'art-remove': if(ch){
+      const artName=btn.dataset.name;
+      ch.arts=(ch.arts||[]).filter(a=>a.name!==artName);
+      saveAll(); render(); break;
+    }
+
+    case 'art-add-open': if(ch){
+      const trad=btn.dataset.tradition;
+      if(!ARTS[trad]){ alert('No arts data for this tradition.'); break; }
+      const known=(ch.arts||[]).map(a=>a.name);
+      const opts=ARTS[trad].filter(a=>!known.includes(a.name));
+      if(!opts.length){ alert('All arts for this tradition are already known.'); break; }
+      const list=opts.map((a,i)=>`${i+1}. ${a.name}`).join('\n');
+      const pick=prompt(`Add art from ${trad} — enter number:\n\n${list}`);
+      const idx=parseInt(pick)-1;
+      if(idx>=0&&idx<opts.length){
+        if(!ch.arts) ch.arts=[];
+        ch.arts.push({name:opts[idx].name, tradition:trad});
+        saveAll(); render();
+      }
+      break;
+    }
+
     case 'gear-load-pkg': if(ch){
       const pkgName=document.getElementById('gear-pkg-select')?.value;
       if(!pkgName){ alert('Choose a package first.'); break; }
@@ -2324,6 +2639,16 @@ function handleChange(e) {
     updateField(ch, el.dataset.field, el.value);
   } else if (action === 'wiz-method') {
     S.w.attrMethod = el.value; render();
+  } else if (action === 'wiz-tradition') {
+    S.w.tradition = el.value;
+    S.w.startingSpells = [];
+    S.w.startingArts = {};
+    render();
+  } else if (action === 'wiz-tradition2') {
+    S.w.tradition2 = el.value;
+    S.w.startingSpells = [];
+    S.w.startingArts = {};
+    render();
   } else if (action === 'wiz-bg') {
     S.w.bg = el.value;
     S.w.bgOption = 'quick';
@@ -2483,6 +2808,7 @@ function startWizard() {
     focus1:'', focus2:'', focus3:'',
     gearPackage:'',
     startingSpells:[],
+    startingArts:{},
   };
   render();
 }
@@ -2541,13 +2867,28 @@ function wizFinish() {
     return;
   }
 
-  // Validate starting spell picks for spellcasters
-  const isSpellChar = w.cls==='Mage' || (w.cls==='Adventurer' && COMBO_DATA[w.combo||'ExW'].hasMage);
-  if (isSpellChar) {
-    const spellCount = (w.cls==='Mage' || COMBO_DATA[w.combo||'ExW'].dualMage) ? 4 : 2;
-    if ((w.startingSpells||[]).length < spellCount) {
-      alert(`Choose ${spellCount} starting spell${spellCount>1?'s':''} (Step 5 — Starting Spells).`);
-      return;
+  // Validate arts and spell picks for mage-type characters
+  const isMage = w.cls==='Mage' || (w.cls==='Adventurer' && COMBO_DATA[w.combo||'ExW'].hasMage);
+  if (isMage) {
+    const t1 = w.tradition||'', t2 = w.tradition2||'';
+    const traditions = [t1,...(COMBO_DATA[w.combo||'ExW']?.dualMage&&t2&&t2!==t1?[t2]:[])].filter(Boolean);
+    // Validate arts picks
+    for (const t of traditions) {
+      if (!ARTS[t]) continue;
+      const opts = ARTS[t].filter(a=>!a.mandatory);
+      if (opts.length > 0 && !(w.startingArts||{})[t]) {
+        alert(`Pick a starting art for ${t} (Step 5).`);
+        return;
+      }
+    }
+    // Validate spell picks for arcane traditions
+    const hasSpellTrad = traditions.some(t => SPELL_TRADITIONS.has(t));
+    if (hasSpellTrad) {
+      const spellCount = (w.cls==='Mage' || COMBO_DATA[w.combo||'ExW']?.dualMage) ? 4 : 2;
+      if ((w.startingSpells||[]).length < spellCount) {
+        alert(`Choose ${spellCount} starting spell${spellCount>1?'s':''} (Step 5).`);
+        return;
+      }
     }
   }
 
@@ -2606,6 +2947,19 @@ function wizFinish() {
 
   // Apply personal skill pick (Step 9)
   if (w.personalSkill) applySkillGain(ch, w.personalSkill);
+
+  // Apply starting arts (Step 11) — mandatory arts + one optional pick per tradition
+  if (!ch.arts) ch.arts = [];
+  const t1 = w.tradition||'', t2 = w.tradition2||'';
+  const traditions = [t1,...(COMBO_DATA[w.combo||'ExW']?.dualMage&&t2&&t2!==t1?[t2]:[])].filter(Boolean);
+  for (const trad of traditions) {
+    if (!ARTS[trad]) continue;
+    for (const art of ARTS[trad].filter(a=>a.mandatory)) {
+      if (!ch.arts.find(a=>a.name===art.name)) ch.arts.push({name:art.name, tradition:trad});
+    }
+    const pick = (w.startingArts||{})[trad];
+    if (pick && !ch.arts.find(a=>a.name===pick)) ch.arts.push({name:pick, tradition:trad});
+  }
 
   // Apply starting spells (Step 11)
   for (const spellName of (w.startingSpells || [])) {
