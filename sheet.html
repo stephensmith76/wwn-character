@@ -36,7 +36,7 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide-react@0.344.0/dist/umd/lucide-react.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.469.0/dist/umd/lucide-react.min.js"></script>
   <style>
     @media print {
       .print\:hidden { display: none !important; }
@@ -1528,13 +1528,17 @@
     }
 
     class ErrorBoundary extends React.Component {
-      constructor(props) { super(props); this.state = { err: null }; }
+      constructor(props) { super(props); this.state = { err: null, info: null }; }
       static getDerivedStateFromError(err) { return { err }; }
+      componentDidCatch(err, info) { this.setState({ err, info }); }
       render() {
         if (this.state.err) return (
-          <div style={{padding:24,fontFamily:'monospace',color:'#b91c1c',background:'#fef2f2',border:'1px solid #fecaca',borderRadius:8,margin:24}}>
-            <b>Render error</b><br/><br/>{String(this.state.err)}<br/>
-            <small>Open browser DevTools (F12) → Console for details.</small>
+          <div style={{padding:24,fontFamily:'monospace',fontSize:13,color:'#b91c1c',background:'#fef2f2',border:'1px solid #fecaca',borderRadius:8,margin:24}}>
+            <b style={{fontSize:16}}>Sheet render error</b>
+            <pre style={{marginTop:12,whiteSpace:'pre-wrap',wordBreak:'break-all',background:'#fff',padding:12,borderRadius:4,border:'1px solid #fecaca'}}>
+              {String(this.state.err)}{'\n\n'}{this.state.info?.componentStack || ''}
+            </pre>
+            <small style={{color:'#6b7280'}}>Copy this text and share it to get a fix.</small>
           </div>
         );
         return this.props.children;
