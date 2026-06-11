@@ -36,7 +36,7 @@
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://unpkg.com/lucide-react/dist/umd/lucide-react.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.344.0/dist/umd/lucide-react.min.js"></script>
   <style>
     @media print {
       .print\:hidden { display: none !important; }
@@ -51,7 +51,7 @@
     const { useState, useEffect, useRef } = React;
     const {
       Feather, Sparkles, Shield, Sword, Heart, Compass,
-      Map, Edit3, Eye, Printer, Download, Upload, Trash2,
+      Map, Pencil, Eye, Printer, Download, Upload, Trash2,
       Plus, BookOpen, Sun, Moon, Leaf, Save, Settings, Info, Users
     } = lucideReact;
 
@@ -485,7 +485,7 @@
                   className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                     editMode ? 'bg-neutral-800 text-white hover:bg-neutral-900' : `${theme.accentBg} ${theme.primary}`
                   }`}>
-                  {editMode ? <Eye size={16} /> : <Edit3 size={16} />}
+                  {editMode ? <Eye size={16} /> : <Pencil size={16} />}
                   <span>{editMode ? 'Lock & Preview' : 'Unlock & Edit'}</span>
                 </button>
 

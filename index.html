@@ -885,6 +885,7 @@ function newChar(id) {
     },
     gear:[],             // [{id,name,enc,readied}]
     notes:'',
+    goal:'',
     strain:0,
   };
 }
@@ -1240,7 +1241,13 @@ function renderRoster() {
 
 // ===== WIZARD =====
 
-const WIZ_STEPS = 4;
+function wizMaxSteps(w) {
+  const cls = w.cls || 'Expert';
+  const combo = w.combo || 'ExW';
+  if (cls === 'Mage') return 5;
+  if (cls === 'Adventurer' && COMBO_DATA[combo].hasMage) return 5;
+  return 4;
+}
 
 function renderWizard() {
   const w = S.w;
@@ -1249,12 +1256,13 @@ function renderWizard() {
     <div class="wizard-header">
       <button data-action="roster" class="btn-danger">× Abandon</button>
       <h1>New Character</h1>
-      <span class="muted">Step ${step} of ${WIZ_STEPS}</span>
+      <span class="muted">Step ${step} of ${wizMaxSteps(w)}</span>
     </div>
     ${renderWizStep1(w, step)}
     ${renderWizStep2(w, step)}
     ${renderWizStep3(w, step)}
     ${renderWizStep4(w, step)}
+    ${renderWizStep5(w, step)}
   </div>`;
 }
 
@@ -1266,6 +1274,10 @@ function renderWizStep1(w, step) {
     <div class="field-group">
       <label>Character Name</label>
       <input type="text" id="wiz-name" value="${esc(w.name||'')}" placeholder="Enter name…">
+    </div>
+    <div class="field-group">
+      <label>Character Goal <span class="muted" style="font-weight:normal;font-size:11px">(Step 19 — optional)</span></label>
+      <input type="text" id="wiz-goal" value="${esc(w.goal||'')}" placeholder="What drives your hero? e.g. Find my sister's murderer…">
     </div>
     <div class="field-group">
       <label>Class</label>
@@ -1599,6 +1611,59 @@ function renderWizStep4(w, step) {
     </div>
     <div class="wizard-nav">
       <button data-action="wiz-back">← Back</button>
+      ${(()=>{const isSpell=w.cls==='Mage'||(w.cls==='Adventurer'&&COMBO_DATA[w.combo||'ExW'].hasMage);
+        return isSpell
+          ? `<button class="btn-primary" data-action="wiz-next">Next → (Starting Spells)</button>`
+          : `<button class="btn-primary" data-action="wiz-finish">Roll HP &amp; Create →</button>`;
+      })()}
+    </div>
+  </div>`;
+}
+
+function renderWizStep5(w, step) {
+  const cls = w.cls || 'Expert';
+  const combo = w.combo || 'ExW';
+  const isSpell = cls==='Mage' || (cls==='Adventurer' && COMBO_DATA[combo].hasMage);
+  if (!isSpell) return '';
+  const spellCount = (cls==='Mage' || COMBO_DATA[combo].dualMage) ? 4 : 2;
+  const accessible = getAccessibleTraditions({tradition: w.tradition||'', tradition2: w.tradition2||''});
+  const availSpells = SPELL_LIST.filter(s => s.lvl===1 && accessible.has(s.tradition));
+  const selected = w.startingSpells || [];
+  const tradList = [...accessible].join(' + ');
+
+  return `<div class="wizard-step ${step===5?'active':''}" id="wiz-5">
+    <div class="step-indicator">Step 5 — Starting Spells</div>
+    <div class="section-box">
+      <div class="section-title">Choose ${spellCount} Starting Level 1 Spell${spellCount>1?'s':''}</div>
+      <p class="muted" style="margin-bottom:8px">
+        ${spellCount===4?'Full and dual partial mages':'Partial mages'} begin with
+        <strong>${spellCount} Level 1 spell${spellCount>1?'s':''}</strong> known.
+        Your tradition${accessible.size>1?'s':''}: <strong>${tradList||'none selected'}</strong>.
+      </p>
+      <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px;font-weight:600">${selected.length} / ${spellCount} selected</span>
+        ${selected.length===spellCount?`<span style="color:#22c55e;font-size:12px">✓ Ready</span>`:''}
+      </div>
+      ${availSpells.length===0
+        ? `<p class="muted" style="padding:12px 0">No Level 1 spells available — go back to Step 1 and choose a casting tradition.</p>`
+        : `<div style="max-height:350px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--rad)">
+            ${availSpells.map(s=>{
+              const isSel = selected.includes(s.name);
+              return `<div class="spell-lib-item" data-action="wiz-spell-toggle" data-spell="${esc(s.name)}"
+                style="cursor:pointer;background:${isSel?'var(--surface2)':'var(--surface)'}">
+                <div style="flex:1">
+                  <div style="font-weight:600;font-size:13px">${esc(s.name)}</div>
+                  <div style="font-size:11px;color:${tradColor(s.tradition)}">${s.tradition}</div>
+                  <div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(s.desc)}</div>
+                </div>
+                <div style="flex-shrink:0;margin-left:8px;font-size:16px;color:${isSel?'var(--accent2)':'var(--muted)'}">${isSel?'✓':''}</div>
+              </div>`;
+            }).join('')}
+          </div>`
+      }
+    </div>
+    <div class="wizard-nav">
+      <button data-action="wiz-back">← Back</button>
       <button class="btn-primary" data-action="wiz-finish">Roll HP &amp; Create →</button>
     </div>
   </div>`;
@@ -1723,7 +1788,13 @@ function renderOverview(ch) {
         ${desc?`<div style="font-size:11px;color:var(--muted);margin-top:2px">${esc(desc)}</div>`:''}
       </div>`;
     }).join('')}
-  </div>`:''}`;
+  </div>`:''}
+  <div class="section-box">
+    <div class="section-title">Character Goal</div>
+    <input type="text" value="${esc(ch.goal||'')}" data-field="goal" data-action="field-update"
+      placeholder="What drives your hero? (Step 19)"
+      style="width:100%;box-sizing:border-box;font-size:13px">
+  </div>`;
 }
 
 function renderAttributes(ch) {
@@ -2054,6 +2125,18 @@ function handleClick(e) {
       render(); break;
     case 'wiz-combo': S.w.combo=btn.dataset.combo; render(); break;
     case 'wiz-gear-pkg': S.w.gearPackage=btn.dataset.pkg; render(); break;
+    case 'wiz-spell-toggle': {
+      const spName = btn.dataset.spell;
+      const w = S.w;
+      const maxPick = (w.cls==='Mage' || COMBO_DATA[w.combo||'ExW'].dualMage) ? 4 : 2;
+      const arr = w.startingSpells || [];
+      const idx = arr.indexOf(spName);
+      if (idx >= 0) { arr.splice(idx, 1); }
+      else if (arr.length < maxPick) { arr.push(spName); }
+      else { alert(`You can only pick ${maxPick} starting spells.`); break; }
+      w.startingSpells = arr;
+      render(); break;
+    }
     case 'wiz-method': {
       S.w.attrMethod=btn.dataset.method;
       // Reset attrs to defaults for the new method
@@ -2392,13 +2475,14 @@ function startWizard() {
     attrMethod:'roll3',
     attrs:{str:10,dex:10,con:10,int:10,wis:10,cha:10},
     set14Attr:null,
-    name:'', bg:'',
+    name:'', goal:'', bg:'',
     bgOption:'quick', bgPickedSkills:[], bgRolls:[],
     bgFreeCombat:null, bgPickCombat:null,
     personalSkill:'',
     tradition:'', tradition2:'',
     focus1:'', focus2:'', focus3:'',
     gearPackage:'',
+    startingSpells:[],
   };
   render();
 }
@@ -2409,6 +2493,7 @@ function wizNext() {
   // Read current step inputs
   if (step===1) {
     w.name = document.getElementById('wiz-name')?.value?.trim()||'Unnamed';
+    w.goal = document.getElementById('wiz-goal')?.value?.trim()||'';
     const trad = document.getElementById('wiz-tradition');
     if(trad) w.tradition = trad.value.trim();
     const trad2 = document.getElementById('wiz-tradition2');
@@ -2427,6 +2512,12 @@ function wizNext() {
     if(w.bgOption==='pick' && (w.bgPickedSkills||[]).length<2) { alert('Pick 2 skills from the Learning table.'); return; }
     if(w.bgOption==='pick' && (w.bgPickedSkills||[]).includes('__combat__') && !w.bgPickCombat) { alert('Choose which combat skill (Stab/Shoot/Punch).'); return; }
     if(!w.personalSkill) { alert('Pick a personal skill (Step 9 — any skill of your choice).'); return; }
+  }
+  if (step===4) {
+    if (!w.gearPackage) { alert('Choose a starting equipment package (or Roll for Silver).'); return; }
+    // Non-spellcasters finish here instead of going to spell step
+    const isSpellChar = w.cls==='Mage' || (w.cls==='Adventurer' && COMBO_DATA[w.combo||'ExW'].hasMage);
+    if (!isSpellChar) { wizFinish(); return; }
   }
   w.step = step+1;
   render();
@@ -2450,9 +2541,20 @@ function wizFinish() {
     return;
   }
 
+  // Validate starting spell picks for spellcasters
+  const isSpellChar = w.cls==='Mage' || (w.cls==='Adventurer' && COMBO_DATA[w.combo||'ExW'].hasMage);
+  if (isSpellChar) {
+    const spellCount = (w.cls==='Mage' || COMBO_DATA[w.combo||'ExW'].dualMage) ? 4 : 2;
+    if ((w.startingSpells||[]).length < spellCount) {
+      alert(`Choose ${spellCount} starting spell${spellCount>1?'s':''} (Step 5 — Starting Spells).`);
+      return;
+    }
+  }
+
   const id = genId();
   const ch = newChar(id);
   ch.name = w.name||'Unnamed';
+  ch.goal = w.goal||'';
   ch.cls  = w.cls;
   ch.combo = w.combo||null;
   ch.tradition = w.tradition||'';
@@ -2504,6 +2606,16 @@ function wizFinish() {
 
   // Apply personal skill pick (Step 9)
   if (w.personalSkill) applySkillGain(ch, w.personalSkill);
+
+  // Apply starting spells (Step 11)
+  for (const spellName of (w.startingSpells || [])) {
+    if (!ch.spells.known.includes(spellName)) ch.spells.known.push(spellName);
+    const book = SPELL_LIST.find(s => s.name === spellName);
+    if (book) {
+      if (!ch.spells.details) ch.spells.details = {};
+      ch.spells.details[spellName] = {desc: book.desc, tradition: book.tradition, lvl: book.lvl};
+    }
+  }
 
   // Add foci
   if (w.focus1) ch.foci.push({name:w.focus1, lvl:1});
