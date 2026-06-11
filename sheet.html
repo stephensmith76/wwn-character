@@ -63,103 +63,103 @@
 
     const SPELL_LIST = [
       // HIGH MAGIC — Level 1
-      {tradition:'High Magic',lvl:1,name:'Apprehending the Arcane Form',desc:'See magic and in darkness for 15 min/level.'},
-      {tradition:'High Magic',lvl:1,name:'Cognitive Supersession of the Inferior Orders',desc:'Bond with animal; obeys but won\'t fight.'},
-      {tradition:'High Magic',lvl:1,name:'The Coruscating Coffin',desc:'1d8 dmg/level to visible target, save for half; 1 HD foes die.'},
-      {tradition:'High Magic',lvl:1,name:'Damnation of the Sense',desc:'Control one sense of a target for a scene on failed save.'},
-      {tradition:'High Magic',lvl:1,name:'Decree of Ligneous Dissolution',desc:'Destroy all non-magic plant matter in area.'},
-      {tradition:'High Magic',lvl:1,name:'The Excellent Transpicuous Transformation',desc:'Turn one target/level invisible for 1 hour/level.'},
-      {tradition:'High Magic',lvl:1,name:'Imperceptible Cerebral Divulgence',desc:'Read surface thoughts; get answers to questions.'},
-      {tradition:'High Magic',lvl:1,name:'Ineluctable Shackles of Volition',desc:'Enslave a target\'s mind, leaving them dazed but obedient.'},
-      {tradition:'High Magic',lvl:1,name:'The Long Amber Moment',desc:'Put willing creature into temporary invulnerable stasis.'},
-      {tradition:'High Magic',lvl:1,name:'Phantasmal Mimesis',desc:'Create an independently-functional illusion in target area.'},
-      {tradition:'High Magic',lvl:1,name:'Velocitous Imbuement',desc:'Augment movement speed and options of one target/level.'},
-      {tradition:'High Magic',lvl:1,name:'Wardpact Invocation',desc:'Make target partially weapon-immune or a weapon useless.'},
-      {tradition:'High Magic',lvl:1,name:'The Wind of the Final Repose',desc:'Put living targets of 4 HD or less to sleep in area.'},
+      {tradition:'High Magic',lvl:1,name:'Apprehending the Arcane Form',desc:'For 15 minutes per caster level, you see magic auras and enchantments clearly and can see in complete darkness as well as in ordinary daylight. Reveals the general nature of enchantments but not their specific details.'},
+      {tradition:'High Magic',lvl:1,name:'Cognitive Supersession of the Inferior Orders',desc:'Form a telepathic bond with one animal within sight; it can communicate simple concepts and will obey commands for one scene. The animal will not fight or take suicidal risks on your behalf.'},
+      {tradition:'High Magic',lvl:1,name:'The Coruscating Coffin',desc:'A visible target takes 1d8 damage per caster level; a Physical save halves the damage. Creatures of 1 HD or less die outright on a failed save without requiring a damage roll.'},
+      {tradition:'High Magic',lvl:1,name:'Damnation of the Sense',desc:'On a failed Mental save, you control one of the target\'s five senses for the rest of the scene. You determine what they perceive through that sense; the target knows they\'re being deceived but cannot act against the false perception.'},
+      {tradition:'High Magic',lvl:1,name:'Decree of Ligneous Dissolution',desc:'All non-magical plant-derived matter (wood, rope, cloth, leather, paper) within the target area disintegrates instantly. Area extends up to 10 feet per caster level in radius.'},
+      {tradition:'High Magic',lvl:1,name:'The Excellent Transpicuous Transformation',desc:'One target per caster level within sight becomes invisible for 1 hour per caster level. The invisibility ends if the target attacks or casts a spell. Carried items become invisible along with the target.'},
+      {tradition:'High Magic',lvl:1,name:'Imperceptible Cerebral Divulgence',desc:'You scan a target\'s surface thoughts and they truthfully answer one question per caster level without realizing they\'ve spoken. You learn what they consciously know about the topic; unconscious knowledge is inaccessible.'},
+      {tradition:'High Magic',lvl:1,name:'Ineluctable Shackles of Volition',desc:'A target within sight who fails a Mental save becomes mentally enslaved, obeying all commands. They appear visibly dazed and zombie-like to observers. The effect persists until dispelled or you release them.'},
+      {tradition:'High Magic',lvl:1,name:'The Long Amber Moment',desc:'A willing creature you touch enters invulnerable stasis; time stops for them and they cannot be harmed. The stasis ends when the caster wills it, or when a condition set at casting is met.'},
+      {tradition:'High Magic',lvl:1,name:'Phantasmal Mimesis',desc:'Create a fully interactive illusion within a target area; illusory fire burns, illusory objects can be picked up, and the illusion is self-sustaining. Lasts until dispelled or the scene ends. Disbelievers may make a Mental save to see through it.'},
+      {tradition:'High Magic',lvl:1,name:'Velocitous Imbuement',desc:'One target per caster level gains doubled movement speed, the ability to run on walls or water, and may take a second Move action each round. Lasts one scene.'},
+      {tradition:'High Magic',lvl:1,name:'Wardpact Invocation',desc:'Either grant one target partial immunity to weapons made of one chosen material type for the rest of the scene, or make one weapon completely inert and unable to deal damage for a scene.'},
+      {tradition:'High Magic',lvl:1,name:'The Wind of the Final Repose',desc:'Living targets of 4 HD or less within the area must make a Physical save or fall into deep sleep lasting until dawn or until disturbed. Higher HD creatures are entirely unaffected.'},
       // HIGH MAGIC — Level 2
-      {tradition:'High Magic',lvl:2,name:'Calculation of the Evoked Servitor',desc:'Summon a magical familiar that obeys all orders except fighting.'},
-      {tradition:'High Magic',lvl:2,name:'Casting Forth the Inner Eye',desc:'Scry a distant location through a luminous or reflective surface.'},
-      {tradition:'High Magic',lvl:2,name:'Conjunction of the Inexorable Step',desc:'Teleport a creature or object to a visible non-dangerous place.'},
-      {tradition:'High Magic',lvl:2,name:'Decree of Lithic Dissolution',desc:'Destroy non-magic stone, earth, or minerals in area.'},
-      {tradition:'High Magic',lvl:2,name:'Extirpate Arcana',desc:'Dispel magic in a twenty-foot radius.'},
-      {tradition:'High Magic',lvl:2,name:'The Inexorable Imputation',desc:'Make a statement; listeners believe it unless impossible.'},
-      {tradition:'High Magic',lvl:2,name:'Jade Palanquin of the Faceless God',desc:'Summon a floating palanquin that can bear heavy burdens.'},
-      {tradition:'High Magic',lvl:2,name:'Mantle of Disjecting Dissection',desc:'Willing target mantled in blades, harming those who get close.'},
-      {tradition:'High Magic',lvl:2,name:'Prudentially Transient Abnegation of Life',desc:'Willing target at zero HP appears to die, but later revives.'},
-      {tradition:'High Magic',lvl:2,name:'Resounding Temporal Echo',desc:'Give targets an extra Main Action (costs System Strain).'},
-      {tradition:'High Magic',lvl:2,name:'The Verdant Vallation',desc:'Create a solid wall of plant life; persists if planted in earth.'},
-      {tradition:'High Magic',lvl:2,name:'Visitation of the Clement Clime',desc:'You and 3 allies/level become immune to natural heat or cold.'},
+      {tradition:'High Magic',lvl:2,name:'Calculation of the Evoked Servitor',desc:'Summon an obedient magical familiar of any appearance up to cat size. It obeys all commands except fighting and can manipulate small objects. The familiar persists until dismissed or destroyed.'},
+      {tradition:'High Magic',lvl:2,name:'Casting Forth the Inner Eye',desc:'Scry a distant location you\'ve visited or know through a luminous or reflective surface for as long as you concentrate. You see and hear as if present but cannot affect anything there.'},
+      {tradition:'High Magic',lvl:2,name:'Conjunction of the Inexorable Step',desc:'Instantly teleport a creature or loose object within sight to any visible non-dangerous location within 100 feet per caster level. Unwilling targets may resist with a Physical save.'},
+      {tradition:'High Magic',lvl:2,name:'Decree of Lithic Dissolution',desc:'Destroy all non-magical stone, earth, or non-metal minerals within the target area up to 10 feet per caster level in radius. Magical stone and worked metal are immune.'},
+      {tradition:'High Magic',lvl:2,name:'Extirpate Arcana',desc:'Dispel all active magical effects within a 20-foot radius of the target point. Functions as a targeted dispel against magical objects (contested roll vs. caster level). Cannot dispel permanent enchantments.'},
+      {tradition:'High Magic',lvl:2,name:'The Inexorable Imputation',desc:'You make a statement that all listeners believe to be true, as long as it is not physically impossible or directly contrary to their deepest beliefs. The belief persists until the listener has strong reason to doubt it.'},
+      {tradition:'High Magic',lvl:2,name:'Jade Palanquin of the Faceless God',desc:'Summon an ornate floating palanquin that can carry up to a ton of weight, moves at 20 feet per round, and follows simple commands. The palanquin persists until the next dawn.'},
+      {tradition:'High Magic',lvl:2,name:'Mantle of Disjecting Dissection',desc:'A willing target is wreathed in invisible blades; any creature that hits them in melee takes 1d6 damage per two caster levels. The mantle lasts for the rest of the scene.'},
+      {tradition:'High Magic',lvl:2,name:'Prudentially Transient Abnegation of Life',desc:'A willing target at zero hit points appears to die by all mundane examination. They revive fully healthy after a scene or at the caster\'s signal, with no lasting ill effects.'},
+      {tradition:'High Magic',lvl:2,name:'Resounding Temporal Echo',desc:'One or more targets immediately gain an extra Main Action for the remainder of this round. Each additional action costs 1 System Strain to the target receiving it.'},
+      {tradition:'High Magic',lvl:2,name:'The Verdant Vallation',desc:'Create a solid wall of interwoven plants up to 10 feet per level long and 10 feet tall. The wall is impassable to normal traffic; if grown in good earth, it persists permanently after the scene ends.'},
+      {tradition:'High Magic',lvl:2,name:'Visitation of the Clement Clime',desc:'You and up to three allies per caster level become immune to all natural heat or cold (not fire or cold damage from spells) for 24 hours. Does not protect against supernatural extremes of temperature.'},
       // HIGH MAGIC — Level 3
-      {tradition:'High Magic',lvl:3,name:'Adopt the Simulacular Visage',desc:'Transform target into chosen humanoid shape until next dawn.'},
-      {tradition:'High Magic',lvl:3,name:'Conjunct the Vital Viscera',desc:'Merge living creatures to share hit points or body parts.'},
-      {tradition:'High Magic',lvl:3,name:'Exhalation of Congelating Cold',desc:'Freeze target area, 1d6 dmg/two levels, save for half.'},
-      {tradition:'High Magic',lvl:3,name:'Foresightful Apprehension',desc:'Divine the most likely outcome of an action in the next 5 minutes.'},
-      {tradition:'High Magic',lvl:3,name:'Glass Chimes of the Bamboo Terrace',desc:'Summon chimes for long-distance messages or 3d6 area damage.'},
-      {tradition:'High Magic',lvl:3,name:'The Howl of Light',desc:'Explosion 1d8 dmg/level in large area, save applies.'},
-      {tradition:'High Magic',lvl:3,name:'Phobic Storm',desc:'Terrify foes within forty feet, forcing Morale checks and damage.'},
-      {tradition:'High Magic',lvl:3,name:'Scorn the Fetters of Earth',desc:'You and ally/level can briefly move through the air.'},
-      {tradition:'High Magic',lvl:3,name:'The Torment of Tumefaction',desc:'Curse foe with disfigurements that hurt them if they act.'},
-      {tradition:'High Magic',lvl:3,name:'Touch of Elucidating Intangibility',desc:'Touch a barrier to see through it or make it briefly intangible.'},
-      {tradition:'High Magic',lvl:3,name:'Vallation of Specified Exclusion',desc:'Draw a line that bars a particular obvious type of target.'},
+      {tradition:'High Magic',lvl:3,name:'Adopt the Simulacular Visage',desc:'Transform one target into any chosen humanoid shape until the next dawn. Physical attributes remain the same; the transformation is complete and convincing. The target can choose to resist with a Mental save.'},
+      {tradition:'High Magic',lvl:3,name:'Conjunct the Vital Viscera',desc:'Mystically merge two living creatures so they share a pool of hit points equal to both totals. Injuries to either reduce the shared pool; both die if it hits zero. The merge lasts until dispelled or dawn.'},
+      {tradition:'High Magic',lvl:3,name:'Exhalation of Congelating Cold',desc:'Freeze a target area in killing cold, dealing 1d6 damage per two caster levels. A Physical save halves the damage. Affected terrain becomes slick and difficult to traverse for the rest of the scene.'},
+      {tradition:'High Magic',lvl:3,name:'Foresightful Apprehension',desc:'Ask one question about the most likely outcome of an action that will occur in the next five minutes. The answer is accurate to the best available information; unlikely but possible outcomes may not be revealed.'},
+      {tradition:'High Magic',lvl:3,name:'Glass Chimes of the Bamboo Terrace',desc:'Summon ethereal chimes that can carry a spoken message to any known location, or deal 3d6 damage to all targets in a 20-foot radius. Used as a weapon, the chimes require a ranged attack roll.'},
+      {tradition:'High Magic',lvl:3,name:'The Howl of Light',desc:'An explosion of blinding radiance deals 1d8 damage per caster level to everything within a 30-foot radius of the target point. A Physical save halves the damage. The blast can be seen for miles.'},
+      {tradition:'High Magic',lvl:3,name:'Phobic Storm',desc:'Unleash terror in a 40-foot radius; affected foes must make a Mental save or be seized with crippling fear, forcing immediate Morale checks and dealing 1d6 damage per round they remain within the area.'},
+      {tradition:'High Magic',lvl:3,name:'Scorn the Fetters of Earth',desc:'You and one ally per caster level can move through the air at your normal movement rate for the rest of the scene. If the effect ends while aloft, targets fall normally.'},
+      {tradition:'High Magic',lvl:3,name:'The Torment of Tumefaction',desc:'Curse a target with grotesque swellings that cause 1d6 damage whenever they take any significant physical action (attacking, running, casting). A Physical save negates the damage each time. Lasts until dispelled.'},
+      {tradition:'High Magic',lvl:3,name:'Touch of Elucidating Intangibility',desc:'Touch any barrier up to 3 feet thick to see through it clearly, or make a section up to 10 feet across temporarily intangible for one round, allowing easy passage. Cannot affect magical barriers.'},
+      {tradition:'High Magic',lvl:3,name:'Vallation of Specified Exclusion',desc:'Create a barrier up to 20 feet per level long that prevents targets of a specific describable category from crossing. The barrier is invisible but absolutely impassable to the specified type. Lasts one scene.'},
       // HIGH MAGIC — Level 4
-      {tradition:'High Magic',lvl:4,name:'Calculation of the Phantasmal Eidolon',desc:'Summon an obedient magical servitor that can fight.'},
-      {tradition:'High Magic',lvl:4,name:'Contingent Excision of Arcana',desc:'Cast to later dispel magic as an Instant action once.'},
-      {tradition:'High Magic',lvl:4,name:'Disjunctive Temporal Reversion',desc:'Target can redo their current round\'s actions; can cast Instantly.'},
-      {tradition:'High Magic',lvl:4,name:'Evert the Inwardness',desc:'Summon contents from a container or viscera from a creature.'},
-      {tradition:'High Magic',lvl:4,name:'The Grinding Geas',desc:'Bind target to obey a command or suffer a terminal disease.'},
-      {tradition:'High Magic',lvl:4,name:'Obnubilation of the Will',desc:'Helpless target becomes an intelligent slave to the caster\'s will.'},
-      {tradition:'High Magic',lvl:4,name:'Ochre Sigil of Juxtaposition',desc:'Swap targets between a current location and a distant prepared one.'},
-      {tradition:'High Magic',lvl:4,name:'Pierce the Pallid Gate',desc:'Create a short-ranged gate between two nearby known locations.'},
-      {tradition:'High Magic',lvl:4,name:'Sigil of Aeolian Auctoritas',desc:'Create a blast of air or control weather in the nearby area.'},
+      {tradition:'High Magic',lvl:4,name:'Calculation of the Phantasmal Eidolon',desc:'Summon an obedient magical construct that can fight: 4 HD, AC 14, deals 1d8 damage per hit. It follows complex instructions and lasts until destroyed or the scene ends.'},
+      {tradition:'High Magic',lvl:4,name:'Contingent Excision of Arcana',desc:'Cast this spell to store a dispel magic effect that can be triggered as an Instant action once at any time before the next dawn. The stored dispel affects one magical effect of your choice when triggered.'},
+      {tradition:'High Magic',lvl:4,name:'Disjunctive Temporal Reversion',desc:'Allow one target to act again this round as if their previous actions this round hadn\'t happened; they can make entirely different choices. Can be cast as an Instant action to save an ally mid-round.'},
+      {tradition:'High Magic',lvl:4,name:'Evert the Inwardness',desc:'Either pull all contents from a container instantly, or rip the viscera from a living creature within sight (Physical save or take 3d6 damage and be incapacitated for the rest of the scene).'},
+      {tradition:'High Magic',lvl:4,name:'The Grinding Geas',desc:'Bind a target to a specific command on a failed Mental save. If they knowingly violate the command, they contract a terminal wasting disease that kills them in a matter of days without magical intervention.'},
+      {tradition:'High Magic',lvl:4,name:'Obnubilation of the Will',desc:'A helpless target (bound, unconscious, etc.) becomes completely enslaved to the caster\'s will with full intelligence intact. They will do anything commanded. Cannot be cast on a merely unresisting target.'},
+      {tradition:'High Magic',lvl:4,name:'Ochre Sigil of Juxtaposition',desc:'Mark a location with a sigil; you can instantly swap yourself or another target between the marked location and any other prepared distant location. The swap is instantaneous and ignores all intervening obstacles.'},
+      {tradition:'High Magic',lvl:4,name:'Pierce the Pallid Gate',desc:'Create a short-range gate between two known locations within 100 feet per level of each other. The gate remains open for one round per caster level; anyone can freely pass through it.'},
+      {tradition:'High Magic',lvl:4,name:'Sigil of Aeolian Auctoritas',desc:'Create a directed blast of hurricane-force wind in a cone, hurling creatures back and dealing 2d6 damage (Physical save for half), or control weather in a quarter-mile radius for one hour.'},
       // HIGH MAGIC — Level 5
-      {tradition:'High Magic',lvl:5,name:'Abdication of Temporal Presence',desc:'Stop time for 1d4+1 rounds; you can\'t affect the world.'},
-      {tradition:'High Magic',lvl:5,name:'Banishment to the Black Glass Labyrinth',desc:'Exile targets to an extradimensional prison-maze.'},
-      {tradition:'High Magic',lvl:5,name:'The Dazzling Prismatic Hemicycle',desc:'Blast targets in 100-ft cone with random gruesome effects.'},
-      {tradition:'High Magic',lvl:5,name:'Deluge of Hell',desc:'1d8 dmg/level in huge area, but risk taking a quarter yourself.'},
-      {tradition:'High Magic',lvl:5,name:'The Earth as Clay',desc:'Mold and shape natural stone and earth in very large area.'},
-      {tradition:'High Magic',lvl:5,name:'Invocation of the Invincible Citadel',desc:'Create a force-shield bubble as an Instant action.'},
-      {tradition:'High Magic',lvl:5,name:'Open the High Road',desc:'Create a temporary gate to a prepared distant target point.'},
+      {tradition:'High Magic',lvl:5,name:'Abdication of Temporal Presence',desc:'Stop time for 1d4+1 rounds; you are frozen along with everything else and cannot affect the world. You can observe your frozen surroundings but cannot move, speak, or cast during this time.'},
+      {tradition:'High Magic',lvl:5,name:'Banishment to the Black Glass Labyrinth',desc:'Exile one or more targets to an extradimensional maze from which escape requires a successful Mental save once per day. Lasts one day per caster level; survivors return to exactly where they were taken.'},
+      {tradition:'High Magic',lvl:5,name:'The Dazzling Prismatic Hemicycle',desc:'A 100-foot cone of prismatic energy strikes all targets within it; each is struck by a randomly-determined color with devastating different effects: fire, lightning, petrification, madness, banishment, or death.'},
+      {tradition:'High Magic',lvl:5,name:'Deluge of Hell',desc:'A torrent of devastation strikes everything in a 60-foot radius for 1d8 damage per caster level. After the spell resolves, you take one-quarter of the total damage dealt as the power rebounds through you.'},
+      {tradition:'High Magic',lvl:5,name:'The Earth as Clay',desc:'Mold and reshape up to 1,000 cubic feet of natural stone and earth per level into any shape you desire. Worked structures resist this spell. The resulting shape is entirely permanent.'},
+      {tradition:'High Magic',lvl:5,name:'Invocation of the Invincible Citadel',desc:'Instantly create a dome of impenetrable force 30 feet in diameter around yourself or a target point, cast as an Instant action. The dome lasts one scene or until you consciously dismiss it.'},
+      {tradition:'High Magic',lvl:5,name:'Open the High Road',desc:'Create a teleportation gate to a distant point you have previously visited and prepared with a special marking ritual. The gate remains open for one minute; all who pass through arrive safely.'},
       // ELEMENTALIST — Level 1
-      {tradition:'Elementalist',lvl:1,name:'Aqueous Harmony',desc:'You and up to twelve allies breathe water and swim freely for 1 hr/level.'},
-      {tradition:'Elementalist',lvl:1,name:'Elemental Favor',desc:'Request a non-magical mass of earth/water/fire/air to reshape itself.'},
-      {tradition:'Elementalist',lvl:1,name:'Elemental Spy',desc:'Enchant stone, liquid, or flame to scry through it for 1 day/level.'},
-      {tradition:'Elementalist',lvl:1,name:'Flame Scrying',desc:'Sense all open flames within 30 ft/level and scry through one.'},
+      {tradition:'Elementalist',lvl:1,name:'Aqueous Harmony',desc:'You and up to twelve allies gain water-breathing, pressure and cold tolerance, and perfect underwater visual clarity for 1 hour per caster level. Movement and attacks are unhindered underwater; equipment is fully protected.'},
+      {tradition:'Elementalist',lvl:1,name:'Elemental Favor',desc:'Appeal to a non-magical mass of earth, stone, water, flame, or air no larger than a 10-foot cube. At the end of the round it reshapes itself within its space as you request; if the new shape is stable, it persists after the scene.'},
+      {tradition:'Elementalist',lvl:1,name:'Elemental Spy',desc:'Enchant a stone, ounce of liquid, flame, or smoke plume. For 1 day per caster level, you can as a Main Action see and hear everything around the enchanted object as if you were standing there in person.'},
+      {tradition:'Elementalist',lvl:1,name:'Flame Scrying',desc:'Sense the approximate location of all open flames within 30 feet per caster level. Choose one as a focus to see and hear everything around it as if present. You may switch your scrying focus between detected flames at will while concentrating.'},
       // ELEMENTALIST — Level 2
-      {tradition:'Elementalist',lvl:2,name:'Boreal Wings',desc:'Target flies at twice usual movement rate for one scene.'},
-      {tradition:'Elementalist',lvl:2,name:'The Burrower Below',desc:'Carve a tunnel up to 20 ft/level long through natural stone or earth.'},
-      {tradition:'Elementalist',lvl:2,name:'Flame Without End',desc:'Make a flame effectively eternal; it no longer consumes its fuel.'},
-      {tradition:'Elementalist',lvl:2,name:'Pact of Stone and Sea',desc:'Grant immunity to mundane manifestations of one chosen element for a scene.'},
+      {tradition:'Elementalist',lvl:2,name:'Boreal Wings',desc:'A visible ally within 100 feet gains swift aerial flight at twice their normal movement rate for one scene (1 hour at level 5+, until dusk/dawn at level 8+). If the spell ends while they\'re aloft, they descend gently and safely.'},
+      {tradition:'Elementalist',lvl:2,name:'The Burrower Below',desc:'Carve a tunnel up to 20 feet per caster level long through natural stone or earth, up to 10 feet wide and tall. Through worked stone the maximum length is only 2 feet per level. The tunnel can be left stable or made to collapse after passage.'},
+      {tradition:'Elementalist',lvl:2,name:'Flame Without End',desc:'Make a sample of flame effectively eternal; it no longer consumes its fuel, resists all extinguishing except burial or total submersion, and can be temporarily suppressed by the caster. Used as a weapon it adds +2 damage. You may maintain one eternal flame per level.'},
+      {tradition:'Elementalist',lvl:2,name:'Pact of Stone and Sea',desc:'Choose earth, water, fire, or air; the target becomes immune to mundane injury caused by that element for the rest of the scene. Stone weapons cannot harm them, water won\'t drown them, fire won\'t burn them, wind won\'t topple them.'},
       // ELEMENTALIST — Level 3
-      {tradition:'Elementalist',lvl:3,name:'Elemental Vallation',desc:'Raise a wall of elemental force 10 ft/level long.'},
-      {tradition:'Elementalist',lvl:3,name:'Like the Stones',desc:'Charge your body with an element\'s qualities for the rest of the scene.'},
-      {tradition:'Elementalist',lvl:3,name:'Wind Walking',desc:'Transform target into insubstantial mist; passes through any gap until end of scene.'},
+      {tradition:'Elementalist',lvl:3,name:'Elemental Vallation',desc:'Raise a wall of a chosen element up to 10 feet per caster level long, 10 feet tall, and 1 foot thick. Fire walls deal 3d6 + level damage to those passing through; water walls eject small creatures; air walls deal 1d6 + level lightning damage; earth walls resist mining. Lasts one scene.'},
+      {tradition:'Elementalist',lvl:3,name:'Like the Stones',desc:'Charge your body with one element\'s qualities for the rest of the scene. All forms grant immunity to poisons and diseases not already present. Earth: auto-stabilize, ignore 3 damage per hit. Water: pass through any gap. Air: fly at normal speed, +4 AC vs ranged. Fire: 1d6 damage to nearby foes each round.'},
+      {tradition:'Elementalist',lvl:3,name:'Wind Walking',desc:'Transform a visible target into insubstantial mist that passes through any gap vapor could reach and moves freely in three dimensions at normal speed. Only damage that could disperse mist can harm them. Lasts until the scene ends or the target or caster ends it.'},
       // ELEMENTALIST — Level 4
-      {tradition:'Elementalist',lvl:4,name:'Calcifying Scourge',desc:'Turn a visible target to stone on a failed Physical save.'},
-      {tradition:'Elementalist',lvl:4,name:'Elemental Guardian',desc:'Imbue a mass of earth/water/fire/air with a loyal 4 HD guardian spirit.'},
+      {tradition:'Elementalist',lvl:4,name:'Calcifying Scourge',desc:'A visible target within 100 feet must make a Physical save or be turned to stone permanently until dispelled or the caster reverses it. On a successful save, the target instead loses their Move action for 1d6 rounds.'},
+      {tradition:'Elementalist',lvl:4,name:'Elemental Guardian',desc:'Imbue a human-sized mass of earth, water, fire, or air with awareness and devotion. The guardian has 4 HD (6 if earth), AC 15 (18 if water), Move 40\', attack +6/1d10, Morale 12. Persists until destroyed or the dawn after summoning; only one at a time.'},
       // ELEMENTALIST — Level 5
-      {tradition:'Elementalist',lvl:5,name:'Fury of the Elements',desc:'10d6 damage in 30-ft radius, wanders 1d6 rounds — devastating area spell.'},
-      {tradition:'Elementalist',lvl:5,name:'Tremors of the Depths',desc:'Topple all structures in a 500-ft radius over five minutes.'},
+      {tradition:'Elementalist',lvl:5,name:'Fury of the Elements',desc:'Eruption of molten rock, pyroclastic winds, and superheated steam at a chosen point within 200 feet per level deals 10d6 damage to everything within 30 feet. The zone moves 1d6×10 feet in a random direction each round for 1d6 rounds, blasting all in its path. Remnants remain hazardous for the rest of the day.'},
+      {tradition:'Elementalist',lvl:5,name:'Tremors of the Depths',desc:'Summon a deep seismic tremor centered on a visible point, affecting all structures within 500 feet. The tremor fully manifests after 5 minutes and can topple or destroy any non-magically-reinforced structures, tunnels, or caves in range. Cannot be stopped more than 1 minute after casting.'},
       // NECROMANCER — Level 1
-      {tradition:'Necromancer',lvl:1,name:'Command the Dead',desc:'Control undead up to 2× level HD; Mental save at −Magic skill to resist.'},
-      {tradition:'Necromancer',lvl:1,name:'Query the Skull',desc:'Interrogate a corpse; it answers one question/level truthfully.'},
-      {tradition:'Necromancer',lvl:1,name:'Smite the Dead',desc:'1d10 dmg/level to hostile undead in area; low-HD undead may be destroyed.'},
-      {tradition:'Necromancer',lvl:1,name:'Terrible Liveliness',desc:'Give undead the tangible appearance and manner of living health.'},
+      {tradition:'Necromancer',lvl:1,name:'Command the Dead',desc:'Exert your will over a number of hit dice worth of undead equal to twice your character level within 100 feet. They make a Mental save at a penalty equal to your Magic skill to resist; controlled undead are suicidally loyal. You may not control more than 2× level HD at once.'},
+      {tradition:'Necromancer',lvl:1,name:'Query the Skull',desc:'Animate a largely-intact corpse dead no longer than 1 day per level to answer up to 1 question per caster level. The corpse speaks truthfully in a language you understand but gives terse, literal answers without speculation. Cannot be used twice on the same corpse.'},
+      {tradition:'Necromancer',lvl:1,name:'Smite the Dead',desc:'A blast of dispelling force in a 20-foot radius at a point within 100 feet per level deals 1d10 damage per caster level to all hostile undead in the area. Undead with HD ≤ your level must make a Physical save or be destroyed outright. Can be cast by committing Effort without using a spell slot.'},
+      {tradition:'Necromancer',lvl:1,name:'Terrible Liveliness',desc:'Give one undead creature the complete, tangible appearance of a living person at any point in its lifespan, including warmth, apparent breathing, and normal human activities. The disguise lasts until dispelled; you can maintain one per level without extra cost.'},
       // NECROMANCER — Level 2
-      {tradition:'Necromancer',lvl:2,name:'Augment Mortal Vitality',desc:'Target gains Physical save bonus equal to Magic skill and auto-stabilizes.'},
-      {tradition:'Necromancer',lvl:2,name:'Enfeebling Wave',desc:'Living creatures in 20-ft radius halved in move and attack on failed Physical save.'},
-      {tradition:'Necromancer',lvl:2,name:'Final Death',desc:'Cursed targets cannot heal and die instantly if Mortally Wounded.'},
-      {tradition:'Necromancer',lvl:2,name:'Raise Corpse',desc:'Animate a skeleton or corpse as a suicidally loyal 1 HD undead servant.'},
+      {tradition:'Necromancer',lvl:2,name:'Augment Mortal Vitality',desc:'Refine the life force of a willing visible target for the rest of the scene: Physical saves gain a bonus equal to your Magic skill, they auto-stabilize when Mortally Wounded, and once as an Instant they can heal all damage from a single injury. The recipient gains 1 System Strain.'},
+      {tradition:'Necromancer',lvl:2,name:'Enfeebling Wave',desc:'A wash of debilitating force in a 20-foot radius at a visible point within 100 feet. On a failed Physical save, targets\' movement is halved and all attack and damage rolls are made twice with the worse result taken for the rest of the scene. A successful save limits the effect to one turn only.'},
+      {tradition:'Necromancer',lvl:2,name:'Final Death',desc:'Curse one visible target per level; for the rest of the scene they cannot recover or gain hit points and die instantly if Mortally Wounded. After each failed healing attempt, a target may make a Physical save to throw off the curse.'},
+      {tradition:'Necromancer',lvl:2,name:'Raise Corpse',desc:'Animate a mostly-intact skeleton or corpse as a suicidally loyal undead servant (1 HD, AC 13, Move 30\', attack +1/1d6). It obeys with human intelligence but has only vague memories of its prior life. You cannot maintain more active servants than your character level.'},
       // NECROMANCER — Level 3
-      {tradition:'Necromancer',lvl:3,name:'Compel Flesh',desc:'Paralyze target\'s body; their mind is free but their flesh obeys your commands.'},
-      {tradition:'Necromancer',lvl:3,name:'Festering Curse',desc:'Curse target with rotting aspects and joylessness (−2 to social checks).'},
-      {tradition:'Necromancer',lvl:3,name:'Forgetting the Grave',desc:'Target simply cannot die for 1 round/level, no matter the injuries.'},
-      {tradition:'Necromancer',lvl:3,name:'Merge Souls',desc:'Bond two willing targets to share a pooled hit point total.'},
+      {tradition:'Necromancer',lvl:3,name:'Compel Flesh',desc:'Ensorcell a visible living or physically-bodied undead target within 100 feet; their body becomes paralyzed and obeys your commands each round, though their mind is unaffected. They make a Physical save each turn to break free, taking damage equal to your level per attempt. Lasts until end of scene if not thrown off.'},
+      {tradition:'Necromancer',lvl:3,name:'Festering Curse',desc:'Force the qualities of a rotting corpse onto a living target: food tastes like ash, water gives no relief, all physical pleasures become numb, and they suffer a −2 penalty to social skill checks. Does no physical damage. Targets with more HD than your level may Physical save to resist.'},
+      {tradition:'Necromancer',lvl:3,name:'Forgetting the Grave',desc:'A willing target within sight simply cannot die for 1 round per Necromancer level regardless of injuries. At zero HP they lose their Move action but can still attack and cast. When the spell ends, those at zero HP are Mortally Wounded; those whose bodies are destroyed die instantly.'},
+      {tradition:'Necromancer',lvl:3,name:'Merge Souls',desc:'Create a bond between two willing or helpless targets you can touch; they pool all hit points for the duration. Injuries to either reduce the shared pool; both are Mortally Wounded when it hits zero. They communicate telepathically at will. Ends at daybreak; if dispelled sooner, remaining HP splits proportionately.'},
       // NECROMANCER — Level 4
-      {tradition:'Necromancer',lvl:4,name:'Boneshaper',desc:'Reshape flesh and bone of willing or helpless creature into any equivalent form.'},
-      {tradition:'Necromancer',lvl:4,name:'Raise Grave Knight',desc:'Animate a powerful 4 HD undead champion, fully intelligent and loyal.'},
+      {tradition:'Necromancer',lvl:4,name:'Boneshaper',desc:'Over one hour, reshape the flesh and bone of a willing or helpless target into any roughly equivalent humanoid form: add or remove limbs, recolor tissue, rearrange features. Perfect imitation of a specific person requires a Dex/Magic check vs. 10. Can shift attribute modifiers by ±1 (up to ±2 total). Lasts until lifted or dispelled.'},
+      {tradition:'Necromancer',lvl:4,name:'Raise Grave Knight',desc:'Animate a corpse of at least 4 HD as a fully intelligent, devoted undead champion (4 HD, AC 15, Move 40\', attack +6/1d10, saves 13+, Morale 12). The knight remembers its prior life and regains all HP at dusk each day. You may only have one; a destroyed knight requires a month of painstaking ritual repair.'},
       // NECROMANCER — Level 5
-      {tradition:'Necromancer',lvl:5,name:'Call of the Tomb',desc:'All attacks against targets within 40 ft auto-hit with maximized damage.'},
-      {tradition:'Necromancer',lvl:5,name:'Everlasting',desc:'All allies in 50 ft can\'t be reduced below 1 HP for 5 rounds; you drop to 1 HP.'},
+      {tradition:'Necromancer',lvl:5,name:'Call of the Tomb',desc:'Invoke the weight of mortality on all enemies within 40 feet. A Physical save limits the effect to one round; otherwise it lasts 1 round per caster level. During this time all attacks against affected targets automatically hit, all damage dice are maximized, and all mundane defenses are completely negated.'},
+      {tradition:'Necromancer',lvl:5,name:'Everlasting',desc:'As an Instant action, flood all allied creatures within 50 feet with unstoppable life force; for 5 rounds none of them can be reduced below 1 hit point by any means. When the effect ends, you are left with only 1 hit point regardless of your total before casting.'},
     ];
 
     function App() {
@@ -1046,7 +1046,13 @@
                       <span className={`text-[11px] uppercase tracking-widest font-serif font-bold ${theme.primary}`}>Spell Grimoire</span>
                       {editMode && (
                         <div className="flex items-center gap-2">
-                          <button onClick={() => setShowSpellPicker(true)}
+                          <button onClick={() => {
+                            const t = char.tradition || '';
+                            const tMap = {'Necromancer':'Necromancer','Elementalist':'Elementalist'};
+                            const autoFilter = t ? (tMap[t] || 'my') : 'all';
+                            setSpellFilter({search:'', level:'all', tradition: autoFilter});
+                            setShowSpellPicker(true);
+                          }}
                             className={`text-xs flex items-center gap-1 px-2.5 py-1 rounded-lg ${theme.accentBg} ${theme.primary} hover:opacity-80 font-semibold`}>
                             <BookOpen size={12} /><span>From Book</span>
                           </button>
@@ -1388,6 +1394,14 @@
                       </button>
                     ))}
                     <span className="w-px h-4 bg-neutral-300 mx-0.5" />
+                    {char.tradition && (
+                      <button onClick={() => setSpellFilter(f => ({...f, tradition: 'my'}))}
+                        className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition ${
+                          spellFilter.tradition === 'my' ? `${theme.primary} ${theme.accentBg}` : 'bg-neutral-200 text-neutral-600 hover:bg-neutral-300'
+                        }`}>
+                        ✦ {char.tradition} Spells
+                      </button>
+                    )}
                     {['all','High Magic','Elementalist','Necromancer'].map(t => (
                       <button key={t} onClick={() => setSpellFilter(f => ({...f, tradition: t}))}
                         className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition ${
@@ -1402,9 +1416,18 @@
                 {/* Spell list */}
                 <div className="flex-1 overflow-y-auto divide-y divide-neutral-100">
                   {(() => {
+                    const accessibleTrads = (() => {
+                      const s = new Set(['High Magic']);
+                      const t1 = char.tradition || '', t2 = char.tradition2 || '';
+                      if (t1 === 'Necromancer' || t2 === 'Necromancer') s.add('Necromancer');
+                      if (t1 === 'Elementalist' || t2 === 'Elementalist') s.add('Elementalist');
+                      return s;
+                    })();
                     const filtered = SPELL_LIST.filter(s => {
                       if (spellFilter.level !== 'all' && String(s.lvl) !== spellFilter.level) return false;
-                      if (spellFilter.tradition !== 'all' && s.tradition !== spellFilter.tradition) return false;
+                      if (spellFilter.tradition === 'my') {
+                        if (!accessibleTrads.has(s.tradition)) return false;
+                      } else if (spellFilter.tradition !== 'all' && s.tradition !== spellFilter.tradition) return false;
                       if (spellFilter.search && !s.name.toLowerCase().includes(spellFilter.search.toLowerCase())) return false;
                       return true;
                     });
