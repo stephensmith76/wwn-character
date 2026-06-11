@@ -1984,7 +1984,17 @@ function renderGear(ch) {
       <option value="stowed">Stowed</option>
     </select>
     <button class="btn-sm btn-primary" data-action="gear-add">Add</button>
-  </div>`;
+  </div>
+  <hr class="sep">
+  <div class="section-title" style="margin-bottom:6px">Load Equipment Package</div>
+  <div class="gear-add-row">
+    <select id="gear-pkg-select" style="flex:1;min-width:160px">
+      <option value="">— choose a package —</option>
+      ${GEAR_PACKAGES.map(p=>`<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('')}
+    </select>
+    <button class="btn-sm btn-primary" data-action="gear-load-pkg">Load</button>
+  </div>
+  <p class="muted" style="font-size:11px;margin-top:4px">Appends all package items — does not remove existing gear.</p>`;
 }
 
 function renderNotes(ch) {
@@ -2196,6 +2206,13 @@ function handleClick(e) {
       saveAll(); render(); break;
     }
 
+    case 'gear-load-pkg': if(ch){
+      const pkgName=document.getElementById('gear-pkg-select')?.value;
+      if(!pkgName){ alert('Choose a package first.'); break; }
+      const pkg=GEAR_PACKAGES.find(p=>p.name===pkgName);
+      if(pkg){ for(const item of pkg.items) ch.gear.push({id:genId(),name:item.name,enc:item.enc,readied:item.readied}); }
+      saveAll(); render(); break;
+    }
     case 'gear-add': if(ch){
       const name=(document.getElementById('new-gear-name')?.value||'').trim();
       const enc=parseFloat(document.getElementById('new-gear-enc')?.value)||1;
